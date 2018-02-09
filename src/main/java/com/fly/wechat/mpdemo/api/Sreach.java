@@ -21,17 +21,19 @@ import org.apache.lucene.analysis.charfilter.NormalizeCharMap;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -65,13 +67,14 @@ public class Sreach {
 		IndexWriter iwriter = new IndexWriter(directory, config);
 		for(AppMsg am:list){
 			Document doc = new Document();
+			doc.add(new LongField("id" , am.getAppmsgid() , Field.Store.YES ));
 			// doc.add(new Field("fieldname", text, TextField.TYPE_STORED));
 			doc.add(new TextField("title", am.getTitle(), Field.Store.YES));
 			doc.add(new TextField("content", grawDetail(am), Field.Store.YES));
 			doc.add(new TextField("Description", am.getDigest(), Field.Store.YES));
 			doc.add(new TextField("PicUrl", am.getCover(), Field.Store.YES));
 			doc.add(new TextField("Url", am.getLink(), Field.Store.YES));
-			iwriter.updateDocument(new Term("id", am.getAid()), doc);
+			iwriter.updateDocument(new Term("id", am.getAppmsgid()+""), doc);
 		}
 		iwriter.close();
 		directory.close();
@@ -84,8 +87,14 @@ public class Sreach {
 		DirectoryReader reader = DirectoryReader.open(directory);
 		IndexSearcher isearcher = new IndexSearcher(reader);
 		// 解析一个简单的查询
-		QueryParser parser = new QueryParser("content", analyzer);
-		Query query = parser.parse(key);
+//		QueryParser parser = new QueryParser("content", analyzer);
+//		MultiFieldQueryParser
+//		Query query = parser.parse(key);
+		String[] fields = { "title", "content"};  
+		Map<String,Float> mapBoots=new HashMap<String,Float>();
+		mapBoots.put("title", 0.01f);
+		mapBoots.put("content", 2.8f);
+		Query query = new MultiFieldQueryParser(fields, analyzer).parse(key.trim());  
 		ScoreDoc[] hits = isearcher.search(query, 1000).scoreDocs;
 		List<Map<String,String>> items=new ArrayList<Map<String,String>>();
 		// 迭代输出结果
@@ -198,13 +207,11 @@ public class Sreach {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Sreach s=new Sreach();
-		for(int i=0;i<100;i++){
-			List<AppMsg> list=s.grawList(0,5);
-			s.createIndex(list);
-		}
-//		String s=BeanUtil.map2xml(queryIndex("勇士")).replaceAll("</item>]]>", "</item>").replaceAll("<!\\[CDATA\\[<item>", "<item>");
-//		System.out.println(
-//				s);
+//		Sreach s=new Sreach();
+//		for(int i=195;i<400;i=i+5){
+//			List<AppMsg> list=s.grawList(i,5);
+//			s.createIndex(list);
+//		}
+		System.out.println((queryIndex("火箭")));
 	}
 }
