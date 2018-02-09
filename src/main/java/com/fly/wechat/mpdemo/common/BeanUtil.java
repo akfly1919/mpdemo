@@ -31,6 +31,23 @@ public class BeanUtil {
 		strBuilder.append("</xml>");
 		return strBuilder.toString();
 	}
+	public static String list2xml(List<Map<String, String>> list) {
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("");
+		for (Map<String, String> map : list) {
+			strBuilder.append("<item>");
+			for (String key : map.keySet()) {
+				strBuilder.append("\n");
+				strBuilder.append("<").append(key.toString()).append("><![CDATA[");
+				String value = map.get(key);
+				strBuilder.append(value);
+				strBuilder.append("]]></").append(key.toString()).append(">\n");
+			}
+			strBuilder.append("</item>");
+		}
+		strBuilder.append("");
+		return strBuilder.toString();
+	}
 
 	public static String map2uri(Map<String, String> dataMap) {
 		StringBuilder strBuilder = new StringBuilder();
