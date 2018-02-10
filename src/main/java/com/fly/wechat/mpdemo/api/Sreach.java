@@ -105,7 +105,6 @@ public class Sreach {
 			item.put("Description", hitDoc.get("Description"));
 			item.put("PicUrl", hitDoc.get("PicUrl"));
 			item.put("Url", hitDoc.get("Url"));
-			System.out.println(hitDoc.get("Url"));
 			items.add(item);
 		}
 		map.put("ToUserName", "");
@@ -205,11 +204,11 @@ public class Sreach {
 	}
 
 	public static void main(String[] args) throws Exception {
-//		Sreach s=new Sreach();
-//		for(int i=0;i<400;i=i+5){
-//			List<AppMsg> list=s.grawList(i,5);
-//			s.createIndex(list);
-//		}
+		Sreach s=new Sreach();
+		for(int i=0;i<400;i=i+5){
+			List<AppMsg> list=s.grawList(i,5);
+			s.createIndex(list);
+		}
 		System.out.println((queryIndex("火箭战术")));
 	}
 }

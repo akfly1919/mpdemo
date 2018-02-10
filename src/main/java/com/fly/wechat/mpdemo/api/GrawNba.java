@@ -17,7 +17,7 @@ import com.fly.wechat.mpdemo.common.http.HttpUtils;
 import com.fly.wechat.mpdemo.common.http.Response;
 
 public class GrawNba {
-	public static final Logger log = Logger.getLogger(Sreach.class);
+	public static final Logger log = Logger.getLogger(GrawNba.class);
 
 	public static String http(String url, int timeout, String params) throws Exception {
 		CloseableHttpClient httpClient = HttpUtils.getHttpClient(1000, true);

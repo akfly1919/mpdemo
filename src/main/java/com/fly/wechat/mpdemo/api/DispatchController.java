@@ -3,7 +3,6 @@ package com.fly.wechat.mpdemo.api;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fly.wechat.mpdemo.common.BeanUtil;
+import com.fly.wechat.mpdemo.service.Handle;
+import com.fly.wechat.mpdemo.service.MyEventHandle;
+import com.fly.wechat.mpdemo.service.MyTextHandle;
 
 /**
  * 注册到微信，并监听分发事件
@@ -41,7 +43,9 @@ public class DispatchController extends BaseController {
 		try {
 			String xml = IOUtils.toString(request.getInputStream());
 			log.info("accessMessage xml:" + xml);
-			return handle(xml);
+			String retXml=handle(xml);
+			log.info("accessMessage retXml:" + retXml);
+			return retXml;
 		} catch (IOException e) {
 		}
 		return "";
@@ -49,21 +53,12 @@ public class DispatchController extends BaseController {
 	
 	private String handle(String xml){
 		Map<String, String> srcMap=new HashMap<String,String>();
-		Map<String, String> retMap=new HashMap<String,String>();
 		try {
 			srcMap = BeanUtil.xml2Map(new String(xml.getBytes(), "UTF-8"));
 			log.info("accessMessage:" + srcMap);
-			retMap.put("ToUserName", srcMap.get("FromUserName"));
-			retMap.put("FromUserName", srcMap.get("ToUserName"));
-			if ("text".equals(srcMap.get("MsgType"))) {
-				String msg=srcMap.get("Content");
-				if(msg.startsWith("地址")){
-					return onlineNbaString(srcMap);
-				}
-				retMap = Sreach.queryIndex(srcMap.get("Content"));
-				return BeanUtil.map2xml(retMap).replaceAll("</item>]]>", "</item>").replaceAll("<!\\[CDATA\\[<item>",
-						"<item>");
-			}
+			Handle handle=getHandle(srcMap.get("MsgType"));
+			String retXml=handle.handle(srcMap);
+			return retXml;
 		} catch (Exception e) {
 			log.error("handle error",e);
 		}
@@ -79,15 +74,14 @@ public class DispatchController extends BaseController {
 		baseMap.put("FromUserName", map.get("ToUserName"));
 		return BeanUtil.map2xml(baseMap);
 	} 
-	private String onlineNbaString(Map<String, String> map){
-		GrawNba gn = new GrawNba();
-		Map<String, Set<String>> nbas=gn.onlineNba();
-		Map<String, String> baseMap=new HashMap<String,String>();
-		baseMap.put("CreateTime", System.currentTimeMillis()+"");
-		baseMap.put("MsgType", "text");
-		baseMap.put("Content", nbas.toString());
-		baseMap.put("ToUserName", map.get("FromUserName"));
-		baseMap.put("FromUserName", map.get("ToUserName"));
-		return BeanUtil.map2xml(baseMap);
-	} 
+	
+	private Handle getHandle(String msgType){
+		if("text".equals(msgType)){
+			return new MyTextHandle();
+		}
+		if("event".equals(msgType)){
+			return new MyEventHandle();
+		}
+		return null;
+	}
 }
