@@ -97,7 +97,7 @@ public class Sreach {
 		ScoreDoc[] hits = isearcher.search(query, 1000).scoreDocs;
 		List<Map<String,String>> items=new ArrayList<Map<String,String>>();
 		// 迭代输出结果
-		for (int i = 0; i < hits.length&&i<8; i++) {
+		for (int i = 0; i < hits.length&&i<4; i++) {
 			System.out.println(hits[i]);
 			Document hitDoc = isearcher.doc(hits[i].doc);
 			Map<String,String> item=new HashMap<String,String>();
