@@ -4,7 +4,13 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.CodingErrorAction;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -13,6 +19,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.ConnectionConfig;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -44,12 +52,14 @@ public class HttpUtils {
 
 	public static PoolingHttpClientConnectionManager poolConnManager = null;
 
-
 	public static CloseableHttpClient getHttpClient() {
-		return getHttpClient(0);
+		return getHttpClient(0, false);
 	}
-	
 	public static CloseableHttpClient getHttpClient(int timeout) {
+		return getHttpClient(timeout, false);
+	}
+
+	public static CloseableHttpClient getHttpClient(int timeout, boolean isSSL) {
 		RequestConfig ec = null;
 		if (timeout == 0) {
 			ec = defaultRequestConfig;
@@ -59,31 +69,59 @@ public class HttpUtils {
 		}
 		BasicHttpClientConnectionManager basicConnManager = new BasicHttpClientConnectionManager();
 		basicConnManager.setConnectionConfig(defaultConnectionConfig);
+		if (isSSL) {
+			X509TrustManager xtm = new X509TrustManager() {
+				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				}
+
+				public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				}
+
+				public X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+			};
+
+			try {
+				SSLContext sslContext = SSLContext.getInstance("TLSv1");
+				sslContext.init(null, new TrustManager[] { xtm }, null);
+				SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
+				return HttpClients.custom().setConnectionManager(basicConnManager).setDefaultRequestConfig(ec)
+						.setSSLSocketFactory(sslsf).build();
+
+			} catch (Exception e) {
+				log.error("getClients", e);
+			}
+		}
 		return HttpClients.custom().setConnectionManager(basicConnManager).setDefaultRequestConfig(ec).build();
 	}
+
 	/**
 	 * 支持get方法
+	 * 
 	 * @param url
 	 * @param params
 	 * @return
 	 * @throws Exception
 	 */
-	public static Response httpGet(String url, List<ParamEntry> params,int timeout) throws Exception {
-		return httpGet(url, convertParamEntrysToString(params),timeout);
+	public static Response httpGet(String url, List<ParamEntry> params, int timeout) throws Exception {
+		return httpGet(url, convertParamEntrysToString(params), timeout);
 	}
+
 	/**
 	 * 支持get方法
+	 * 
 	 * @param url
 	 * @param params
 	 * @return
 	 * @throws Exception
 	 */
-	public static Response httpGet(String url, String params,int timeout) throws Exception {
+	public static Response httpGet(String url, String params, int timeout) throws Exception {
 		CloseableHttpClient httpClient = getHttpClient(timeout);
 		Response r = null;
 		try {
 			String u = wrapUri(url, params);
-			log.info("url:"+u);
+			log.info("url:" + u);
 			HttpGet httpget = new HttpGet(u);
 			CloseableHttpResponse response = null;
 			try {
@@ -109,8 +147,10 @@ public class HttpUtils {
 
 		return r;
 	}
+
 	/**
 	 * 支持post方法
+	 * 
 	 * @param url
 	 * @param params
 	 * @return
@@ -122,7 +162,7 @@ public class HttpUtils {
 		Response r = null;
 		CloseableHttpResponse response = null;
 		try {
-			log.info("url:"+url);
+			log.info("url:" + url);
 			HttpPost httpPost = new HttpPost(url);
 			try {
 				httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -149,15 +189,17 @@ public class HttpUtils {
 
 		return r;
 	}
-	
+
 	/**
 	 * 支持post方法
+	 * 
 	 * @param url
 	 * @param params
 	 * @return
 	 * @throws Exception
 	 */
-	public static Response httpPostFile(String url,String name, File file,ContentType contentType, int timeout) throws Exception {
+	public static Response httpPostFile(String url, String name, File file, ContentType contentType, int timeout)
+			throws Exception {
 
 		CloseableHttpClient httpClient = getHttpClient(timeout);
 		Response r = null;
@@ -170,7 +212,7 @@ public class HttpUtils {
 				HttpEntity httpEntity = multipartEntityBuilder.build();
 				httpPost.setEntity(httpEntity);
 				httpPost.addHeader("content-type", contentType.toString());
-				httpPost.addHeader("content_disposition", "attachment;filename="+file.getName());
+				httpPost.addHeader("content_disposition", "attachment;filename=" + file.getName());
 				httpPost.addHeader("filename", file.getName());
 				httpPost.addHeader("filelength", Long.toString(file.length()));
 				response = httpClient.execute(httpPost);
@@ -195,9 +237,10 @@ public class HttpUtils {
 
 		return r;
 	}
-	
+
 	/**
 	 * 支持post方法
+	 * 
 	 * @param url
 	 * @param params
 	 * @return
@@ -209,7 +252,7 @@ public class HttpUtils {
 		Response r = null;
 		CloseableHttpResponse response = null;
 		try {
-			log.info("url:"+url);
+			log.info("url:" + url);
 			HttpPost httpPost = new HttpPost(url);
 			try {
 				httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -271,6 +314,5 @@ public class HttpUtils {
 		}
 		return result;
 	}
-
 
 }

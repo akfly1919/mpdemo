@@ -3,6 +3,7 @@ package com.fly.wechat.mpdemo.api;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,7 @@ public class DispatchController extends BaseController {
 	private String accessMessage(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			String xml = IOUtils.toString(request.getInputStream());
+			log.info("accessMessage xml:" + xml);
 			return handle(xml);
 		} catch (IOException e) {
 		}
@@ -54,6 +56,10 @@ public class DispatchController extends BaseController {
 			retMap.put("ToUserName", srcMap.get("FromUserName"));
 			retMap.put("FromUserName", srcMap.get("ToUserName"));
 			if ("text".equals(srcMap.get("MsgType"))) {
+				String msg=srcMap.get("Content");
+				if(msg.startsWith("地址")){
+					return onlineNbaString(srcMap);
+				}
 				retMap = Sreach.queryIndex(srcMap.get("Content"));
 				return BeanUtil.map2xml(retMap).replaceAll("</item>]]>", "</item>").replaceAll("<!\\[CDATA\\[<item>",
 						"<item>");
@@ -69,6 +75,17 @@ public class DispatchController extends BaseController {
 		baseMap.put("CreateTime", System.currentTimeMillis()+"");
 		baseMap.put("MsgType", "text");
 		baseMap.put("Content", "正在调试");
+		baseMap.put("ToUserName", map.get("FromUserName"));
+		baseMap.put("FromUserName", map.get("ToUserName"));
+		return BeanUtil.map2xml(baseMap);
+	} 
+	private String onlineNbaString(Map<String, String> map){
+		GrawNba gn = new GrawNba();
+		Map<String, Set<String>> nbas=gn.onlineNba();
+		Map<String, String> baseMap=new HashMap<String,String>();
+		baseMap.put("CreateTime", System.currentTimeMillis()+"");
+		baseMap.put("MsgType", "text");
+		baseMap.put("Content", nbas.toString());
 		baseMap.put("ToUserName", map.get("FromUserName"));
 		baseMap.put("FromUserName", map.get("ToUserName"));
 		return BeanUtil.map2xml(baseMap);
