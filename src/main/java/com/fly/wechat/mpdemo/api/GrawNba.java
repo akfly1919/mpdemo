@@ -81,19 +81,19 @@ public class GrawNba {
 		HtmlCleaner cleaner = new HtmlCleaner();
 		Set<String> set = new HashSet<String>();
 		String html = http(url, 3000, "");
-		System.out.println(html);
+		log.info(html);
 		// TagNode node =cleaner.clean(new
 		// File("/Users/panghuiyuan/git/mpdemo/src/main/resources/2.txt"));
 		TagNode node = cleaner.clean(html);
 		Object[] tables = node.evaluateXPath("//a[@rel=\"nofollow\"]");
-		System.out.println(tables.length);
+		log.info(tables.length);
 		if (tables != null) {
 			for (Object obj : tables) {
 				TagNode tab = (TagNode) obj;
 				String surl = tab.getAttributeByName("href");
 				if (surl.startsWith("http") && !surl.startsWith("https://www.reddit.com/")
 						&& !surl.startsWith("http://bilasport.me")) {
-					if (set.size() < 2) {
+					if (set.size() < 1) {
 						set.add(surl);
 					}
 				}
@@ -119,17 +119,55 @@ public class GrawNba {
 				while (set == null) {
 					set = grawUrls(nbas.get(key));
 				}
-				System.out.println(set);
+				log.info(set);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 			}
-			map.put(key,set);
+			map.put(getKey(key),set);
 		}
-		System.out.println(map);
 		return map;
 	}
-
-	public static void main(String[] args) throws Exception {
-		// read("http://www.baidu.com/index.jsp");
+	private String getKey(String key){
+		try{
+			int a=key.indexOf(":");
+			int b=key.indexOf("@");
+			int c=key.indexOf("(");
+			return zuMap.get(key.substring(a+1, b).trim())+"vs"+zuMap.get(key.substring(b+1, c).trim());
+		}catch(Exception e){
+			return key;
+		}
+	}
+	public static Map<String,String> zuMap=new HashMap<String,String>();
+	static{
+		zuMap.put("San Antonio Spurs", "马刺");
+		zuMap.put("Memphis Grizzlies", "灰熊");
+		zuMap.put("Dallas Mavericks", "独行侠");
+		zuMap.put("Houston Rockets", "火箭");
+		zuMap.put("New Orleans Pelicans", "鹈鹕");
+		zuMap.put("Minnesota Timberwolves", "森林狼");
+		zuMap.put("Denver Nuggets", "掘金");
+		zuMap.put("Utah Jazz", "爵士");
+		zuMap.put("Portland Trail Blazers", "开拓者");
+		zuMap.put("Oklahoma City Thunder", "雷霆");
+		zuMap.put("Sacramento Kings", "国王");
+		zuMap.put("Phoenix Suns", "太阳");
+		zuMap.put("Los Angeles Lakers", "湖人");
+		zuMap.put("Los Angeles Clippers", "快船");
+		zuMap.put("Golden State Warriors", "勇士");
+		zuMap.put("Miami Heat", "热火");
+		zuMap.put("Orlando Magic", "魔术");
+		zuMap.put("Atlanta Hawks", "老鹰");
+		zuMap.put("Washington Wizards", "奇才");
+		zuMap.put("Charlotte Hornets", "黄蜂");
+		zuMap.put("Detroit Pistons", "活塞");
+		zuMap.put("Indiana Pacers", "步行者");
+		zuMap.put("Cleveland Cavaliers", "骑士");
+		zuMap.put("Chicago Bulls", "公牛");
+		zuMap.put("Milwaukee Bucks", "雄鹿");
+		zuMap.put("Boston Celtics", "凯尔特人");
+		zuMap.put("Philadelphia 76ers", "76人");
+		zuMap.put("New York Knicks", "尼克斯");
+		zuMap.put("New Jersey Nets", "篮网");
+		zuMap.put("Toronto Raptors", "猛龙");
 	}
 }

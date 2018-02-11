@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fly.wechat.mpdemo.common.CacheUtil;
 import com.fly.wechat.mpdemo.model.AppMsg;
 
 @Controller
@@ -25,6 +26,12 @@ public class SreachController {
 				e.printStackTrace();
 			}
 		}
+		return "ok";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/cleanCache.do")
+	public String cleanCache(int count) {
+		CacheUtil.cache.cleanUp();
 		return "ok";
 	}
 }
