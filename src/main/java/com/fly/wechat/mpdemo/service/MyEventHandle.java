@@ -2,13 +2,10 @@ package com.fly.wechat.mpdemo.service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import com.fly.wechat.mpdemo.api.GrawNba;
-import com.fly.wechat.mpdemo.api.Sreach;
 import com.fly.wechat.mpdemo.common.BeanUtil;
 
-public class MyEventHandle  implements Handle{
+public class MyEventHandle  extends MyBaseHandle implements Handle{
 
 	public String handle(Map<String, String> srcMap) throws Exception {
 		Map<String, String> baseMap=new HashMap<String,String>();

@@ -93,7 +93,7 @@ public class GrawNba {
 				String surl = tab.getAttributeByName("href");
 				if (surl.startsWith("http") && !surl.startsWith("https://www.reddit.com/")
 						&& !surl.startsWith("http://bilasport.me")) {
-					if (set.size() < 3) {
+					if (set.size() < 2) {
 						set.add(surl);
 					}
 				}
