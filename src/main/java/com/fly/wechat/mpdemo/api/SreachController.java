@@ -30,8 +30,8 @@ public class SreachController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/cleanCache.do")
-	public String cleanCache(int count) {
-		CacheUtil.cache.cleanUp();
+	public String cleanCache() {
+		CacheUtil.cache.invalidateAll();
 		return "ok";
 	}
 }

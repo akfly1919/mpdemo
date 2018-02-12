@@ -10,7 +10,7 @@ public class MyEventHandle  extends MyBaseHandle implements Handle{
 	public String handle(Map<String, String> srcMap) throws Exception {
 		Map<String, String> baseMap=new HashMap<String,String>();
 		if("subscribe".equals(srcMap.get("Event"))){
-			baseMap.put("Content", "关注我是正确的选择");
+			baseMap.put("Content", "关注我是正确的选择,欢迎对话提问，将自动从历史文章中搜索匹配您问题的最佳答案");
 		}else if("unsubscribe".equals(srcMap.get("Event"))){
 			baseMap.put("Content", "一千个伤心的理由，你给我一个解释");
 		}
