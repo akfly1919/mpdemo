@@ -167,7 +167,7 @@ public class GrawNba {
 		zuMap.put("Boston Celtics", "凯尔特人");
 		zuMap.put("Philadelphia 76ers", "76人");
 		zuMap.put("New York Knicks", "尼克斯");
-		zuMap.put("New Jersey Nets", "篮网");
+		zuMap.put("Brooklyn Nets", "篮网");
 		zuMap.put("Toronto Raptors", "猛龙");
 	}
 }
