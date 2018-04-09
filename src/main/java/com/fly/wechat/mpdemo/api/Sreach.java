@@ -45,8 +45,8 @@ import com.fly.wechat.mpdemo.model.AppMsg;
 
 public class Sreach {
 	public static final Logger log = Logger.getLogger(Sreach.class);
-	public static String listUrl = "https://mp.weixin.qq.com/cgi-bin/appmsg?token=1764663043&lang=zh_CN&f=json&ajax=1"
-			+ "&random=0.024366825126301617&action=list_ex&begin=0&count=5&query=&fakeid=&type=9";
+	public static String listUrl = "https://mp.weixin.qq.com/cgi-bin/appmsg?token=1160335202&lang=zh_CN&f=json&ajax=1"
+			+ "&random=0.21272808687514932&action=list_ex&begin=0&count=5&query=&fakeid=&type=9";
 	public static String detailUrl = "https://mp.weixin.qq.com/s?__biz=MzA3NTkwMDAwMg"
 			+ "==&mid=2649605308&idx=1&sn=f48217ba96a32a7a80733f268194ec84"
 			+ "&chksm=877011b1b00798a7f6b1f39832d8bd07b8e9c717f6451287a66a59d288c7ebb6f890444c5fcb#rd";
@@ -165,21 +165,8 @@ public class Sreach {
 			try {
 				httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
 				httpPost.addHeader("Referer",
-						"https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit_v2&action=edit&isNew=1&type=10&token=143857628&lang=zh_CN");
-				httpPost.addHeader("Cookie",
-						"noticeLoginFlag=1; tvfe_boss_uuid=aa65b200278002eb; mobileUV=1_159da49bc6c_34ee6; "
-						+ "_ga=GA1.2.955750067.1487058734; pgv_pvi=5382595584; RK=HL1uGQBOU3; pac_uid=1_459299295; sd_userid=23601503745520873; "
-						+ "sd_cookie_crttime=1503745520873; eas_sid=l1q5O0S8g0v5m0l7X7L4d760S4; LW_uid=o1U550x8n0R5i0u7a9o2Q2d9r5; LW_sid=L1k550V991N7u9w9l2T5O9s1Z2; "
-						+ "pgv_pvid_new=459299295_158305e4ea1; ptcz=8bed125b016cf50972fd90457ae05447acb9c44ec47cd5dd1fbe24366507a29a; ts_uid=2082215592; "
-						+ "ua_id=gALffH3Il5L1c2XBAAAAALbUalVPAbDNTxE30um0gKk=; mm_lang=zh_CN; o_cookie=459299295; pgv_pvid=1643249965; noticeLoginFlag=1; "
-						+ "qq_slist_autoplay=on; pt2gguin=o0459299295; luin=o0459299295; lskey=00010000d8488eed2bf781f190cfce21450c3aed9cf17f5659b9354aa6b234af2eced6a5ebad861835b454fe;"
-						+ " AMCV_248F210755B762187F000101%40AdobeOrg=-1891778711%7CMCIDTS%7C17566%7CMCMID%7C29742349974197567379094842656072282433%7CMCAAMLH-1518230110%7C11%7CMCAAMB-1518230110%7CRKhpRz8krg2"
-						+ "tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCAID%7CNONE%7CMCOPTOUT-1517632510s%7CNONE%7CMCSYNCSOP%7C411-17573%7CvVersion%7C2.4.0; pgv_si=s3340737536;"
-						+ " pgv_info=ssid=s5394389504; uin=o0459299295; skey=@8OMMlGmWt; sig_login=h01b5c0af0d234fdf245b6cc55dde6f7b15fa987cda8613fe6ca9776200d2ae0d01a7220357152ca88a; "
-						+ "sig=h014deac03a6c72b7d0ef25fcfe07b2db60670d142e5fb1b0337d569313ec309241ad3a217aaf22c1dc; rewardsn=; cert=CJ2pCs4BvNN5PdG5sXHFc4mfwTpHbGgL; uuid=593fcc95b9fbe5655178d87f17bee8b8;"
-						+ " ticket=a9d39f83982c0a446c30e061ab161309116546e5; ticket_id=gh_308c51629033; data_bizuin=3073903005; bizuin=3075900002; "
-						+ "data_ticket=L/oGKjRF5vq1mxeUDyeakXjiYs768l/t1xrhtxF3J4NqljVkGU98gt8ewShsuui1; slave_sid=VFdqSFZIaGFBbFhJdW9UbVE3am5mSklwTW9zNG1sNlhaQk1qNG9jb1FncXJhUElxaG9sZGtydW5kSHBUbU5YYUZTOTNMRTcwQV9SNGp6QTN3SU9FbDZQNDFaSVA1RzhuVnVEZ3UzVlpVcExSVk1uWmE2M3BhcmRQZUNQMjJlOW9VbUE4SXVtd2FGYW9CMURp; "
-						+ "slave_user=gh_308c51629033; xid=79105dfdb425cf2e0e4ed4ce10461183; openid2ticket_onQk4t5ohnQxjFVjFmPwb_UwTGGI=acbLJZPCNn9S9Uy0jiZbeb4hnoHmMJJIePE33xKWQjg=; webwx_data_ticket=gSf1OpQWDqSkmhpkOhob1o7q");
+						"https://mp.weixin.qq.com/cgi-bin/appmsg?t=media/appmsg_edit_v2&action=edit&isNew=1&type=10&token=823056891&lang=zh_CN");
+				httpPost.addHeader("Cookie","noticeLoginFlag=1; pac_uid=1_459299295; tvfe_boss_uuid=3e2316bde0f63407; ts_uid=6914649030; mobileUV=1_15a82c414fb_6d258; pgv_pvi=9079758848; RK=OC1mSQBPWX; LW_uid=r1b5S0w182d3k1r3W7b9G7T1Q3; eas_sid=j1X5U0N142B3i1r3H7d9m7E9Z6; LW_sid=l1w590x2T4P2F3V3v2T6V4Y8Z0; qq_slist_autoplay=on; ptcz=704680530c9768e94f0f1433c2ace9b6786c9bf833beff8531454bea2a155c2d; mm_lang=zh_CN; ts_uid=6914649030; pgv_pvid=9073209069; o_cookie=459299295; ua_id=wiskKdhSHxUq3SVFAAAAABhrd_qeIZsL-LZ8mjg_z7A=; ptui_loginuin=459299295; pt2gguin=o0459299295; noticeLoginFlag=1; pgv_si=s2981218304; cert=2RMbWZ9qiElroz1B6gkvX4szGtU3HCTR; rewardsn=; _qpsvr_localtk=0.6493009957639986; ptisp=ctc; pgv_info=ssid=s8626634517; luin=o0459299295; lskey=00010000d2218775d446e890d95c87ef7e3be5d89c7f33879d86090a0c99840635e8ed4e6bfccfd29a33d0ed; user_id=443713014; session_id=dc6760d7fd313867252d2abf; AMCVS_248F210755B762187F000101%40AdobeOrg=1; s_cc=true; wxtokenkey=777; openid2ticket_onQk4t5ohnQxjFVjFmPwb_UwTGGI=JeeeqMQ3uwv9L06LT3MKD5g9/osXZHB1jFcbooFqFVs=; rv2=802040F45B6B4D7111B7990EAEF5889F2803A8544E2688B4BD; property20=53F75624D278F6A350FF77B9F7A40BFCB1A6EE8DE7562AD58284EEB3099A395C61598397009D6E29; uin=o0459299295; skey=@WsqW3uaFA; s_ppvl=cn%253Aphoto%253Agallery%2C42%2C42%2C925%2C1920%2C925%2C1920%2C1080%2C1%2CL; AMCV_248F210755B762187F000101%40AdobeOrg=-1891778711%7CMCIDTS%7C17621%7CMCMID%7C42878156903894707673759787562300721670%7CMCAAMLH-1523005677%7C11%7CMCAAMB-1523005677%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCAID%7CNONE%7CMCOPTOUT-1522408077s%7CNONE%7CMCSYNCSOP%7C411-17628%7CvVersion%7C2.4.0; s_sq=nbachinaprod%3D%2526pid%253Dcn%25253Aphoto%25253Agallery%2526pidt%253D1%2526oid%253Dfunctiononclick%252528event%252529%25257BmyGallery.changeImage%2525281%252529%25253Breturnfalse%25253B%25257D%2526oidt%253D2%2526ot%253DA; s_ppv=cn%253Aphoto%253Agallery%2C44%2C52%2C1165%2C1920%2C355%2C1920%2C1080%2C1%2CL; webwx_data_ticket=gSchE6Da/J4a5bwzGqaZxZ3v; mmad_session=69f67f7a45e6e30294387653c55fd4dc387c773b3260f2f383831df511444f31e67d3c043833f5330b4558a5602e76d64ef3d634780b1ed66248458822aaae03a20311e23667871610feb0a1b4d59f89519bb7f21657eb28ded3f73b2d1fc5e011de1c56c245721266e7088080fefde3; uuid=42ee32060dbe553a038b5f6426638aa6; data_bizuin=3073903005; bizuin=3075900002; data_ticket=Gc2rQ1Syb31CfYJ6N80Y+iNamMBCG9y1jTKQI1EJpUxuo1J9/fb+yy92aU/nyG0i; slave_sid=ZGdReGxvUXN0dDhRSVJEdXJQU2F5RXI5U0t1dUk5MXd1c2pHcEVYYmRaRWJicVZoYlJvRHZsa1FjelpYQXZTMTNpVE5HUVBBbHNYRmVabm15NjN0X1NBSlpNV0czQ2Ryb0htekhXM2lhdWJDVXY3eVpYMzVEWmU2eUlldkhNS1drbjBLV1JmY3pSWE5STkY4; slave_user=gh_308c51629033; xid=3a9e3c0a533c8057ac03d51e1c1cc164");
 				httpPost.setEntity(new StringEntity(params));
 				response = httpClient.execute(httpPost);
 				r = new Response();
@@ -205,10 +192,10 @@ public class Sreach {
 
 	public static void main(String[] args) throws Exception {
 		Sreach s=new Sreach();
-		for(int i=0;i<400;i=i+5){
+		for(int i=0;i<10;i=i+5){
 			List<AppMsg> list=s.grawList(i,5);
 			s.createIndex(list);
 		}
-		System.out.println((queryIndex("火箭战术")));
+//		System.out.println((queryIndex("火箭战术")));
 	}
 }
