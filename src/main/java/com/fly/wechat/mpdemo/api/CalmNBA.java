@@ -47,15 +47,19 @@ public class CalmNBA {
 
 	public static void printMap(Map<String, Integer> map) {
 		
-		final Map<Integer,String> set=new TreeMap<Integer,String>();
+		final Map<Integer,Set<String>> mset=new TreeMap<Integer,Set<String>>();
 		Comparator<Map.Entry<String, Integer>> valueComparator = new Comparator<Map.Entry<String, Integer>>() {
 			@Override
 			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
 				if((o2.getValue() - o1.getValue())==0){
-					if(set.containsKey(o1.getValue())){
-						set.put(o1.getValue(), set.get(o1.getValue())+","+o2.getKey());
+					if(mset.containsKey(o1.getValue())){
+						mset.get(o1.getValue()).add(o2.getKey());
+						mset.get(o1.getValue()).add(o1.getKey());
 					}else{
-						set.put(o1.getValue(), o1.getKey()+","+o2.getKey());
+						Set<String> set=new TreeSet<String>();
+						set.add(o1.getKey());
+						set.add(o2.getKey());
+						mset.put(o1.getValue(), set);
 					}
 				}
 				return o2.getValue() - o1.getValue();
@@ -70,7 +74,8 @@ public class CalmNBA {
 		for (Map.Entry<String, Integer> entry : list) {
 			System.out.print((i++)+entry.getKey() + ":" + entry.getValue()+" ");
 		}
-		for (Map.Entry<Integer,String> entry : set.entrySet()) {
+		for (Map.Entry<Integer,Set<String>> entry : mset.entrySet()) {
+			System.out.println();
 			System.out.println(entry.getKey() + ":" + entry.getValue());
 		}
 
