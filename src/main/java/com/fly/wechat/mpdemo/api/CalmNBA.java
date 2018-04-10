@@ -46,25 +46,38 @@ public class CalmNBA {
 	}
 
 	public static void printMap(Map<String, Integer> map) {
+		
+		final Map<Integer,String> set=new TreeMap<Integer,String>();
 		Comparator<Map.Entry<String, Integer>> valueComparator = new Comparator<Map.Entry<String, Integer>>() {
 			@Override
 			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-				// TODO Auto-generated method stub
+				if((o2.getValue() - o1.getValue())==0){
+					if(set.containsKey(o1.getValue())){
+						set.put(o1.getValue(), set.get(o1.getValue())+","+o2.getKey());
+					}else{
+						set.put(o1.getValue(), o1.getKey()+","+o2.getKey());
+					}
+				}
 				return o2.getValue() - o1.getValue();
 			}
+			
 		};
 		// map转换成list进行排序
 		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
 		// 排序
 		Collections.sort(list, valueComparator);
+		int i=3;
 		for (Map.Entry<String, Integer> entry : list) {
-			System.out.print(entry.getKey() + ":" + entry.getValue());
+			System.out.print((i++)+entry.getKey() + ":" + entry.getValue()+" ");
+		}
+		for (Map.Entry<Integer,String> entry : set.entrySet()) {
+			System.out.println(entry.getKey() + ":" + entry.getValue());
 		}
 
 	}
 
 	public static void calm(String s, Map<String, Integer> map) {
-		System.out.print(s);
+		System.out.println(printZN(s));
 		if (s.indexOf("a") != -1) {
 			map.put("爵士", map.get("爵士") + 1);
 		}
@@ -89,5 +102,40 @@ public class CalmNBA {
 		if (s.indexOf("E") != -1) {
 			map.put("掘金", map.get("掘金") + 1);
 		}
+	}
+	public static String printZN(String s){
+		String scr="";
+		if (s.indexOf("a") != -1) {
+			scr=scr+"勇士输爵士,";
+		}
+		if (s.indexOf("A") != -1) {
+			scr=scr+"勇士赢爵士,";
+		}
+		if (s.indexOf("b") != -1) {
+			scr=scr+"开拓者输爵士,";
+		}
+		if (s.indexOf("B") != -1) {
+			scr=scr+"开拓者赢爵士,";
+		}
+		if (s.indexOf("c") != -1) {
+			scr=scr+"鹈鹕输马刺,";
+		}
+		if (s.indexOf("C") != -1) {
+			scr=scr+"鹈鹕赢马刺,";
+		}
+		if (s.indexOf("d") != -1) {
+			scr=scr+"雷霆输灰熊,";
+		}
+		if (s.indexOf("D") != -1) {
+			scr=scr+"雷霆赢灰熊,";
+		}
+		if (s.indexOf("e") != -1) {
+			scr=scr+"森林狼输掘金";
+		}
+		if (s.indexOf("E") != -1) {
+			scr=scr+"森林狼赢掘金";
+		}
+		
+		return scr;
 	}
 }

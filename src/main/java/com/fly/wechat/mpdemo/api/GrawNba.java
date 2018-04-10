@@ -84,8 +84,8 @@ public class GrawNba {
 			for(Object obj : matchs){
 				JSONObject match=(JSONObject)obj;
 				String str=map.getKey() + "==" 
-						+match.getString("leftName")+match.getString("rightName")
-						+match.getString("leftGoal")+match.getString("rightGoal");
+						+match.getString("leftName")+match.getString("rightName")+"="
+						+(match.getIntValue("leftGoal")-match.getIntValue("rightGoal"));
 				ssmap.put(str,"");
 			}
 		}
@@ -99,6 +99,7 @@ public class GrawNba {
 		gn.sreachNBA(file1, treeMap);
 		gn.sreachNBA(file2, treeMap);
 		printList(getLikeByMap(treeMap, "开拓者爵士"));
+		printList(getLikeByMap(treeMap, "爵士开拓者"));
 
 	}
 	public static void printList(List<String> list){
