@@ -1,9 +1,14 @@
 package com.fly.wechat.mpdemo.api;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,6 +18,9 @@ import org.apache.log4j.Logger;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fly.wechat.mpdemo.common.http.HttpUtils;
 import com.fly.wechat.mpdemo.common.http.Response;
 
@@ -50,6 +58,66 @@ public class GrawNba {
 		}
 		return r.getResponseString();
 	}
+	
+	public void sreachNBA(String fileName,Map<String,String> ssmap) throws Exception{
+		HtmlCleaner cleaner = new HtmlCleaner();
+		// String
+		// html=http("http://matchweb.sports.qq.com/kbs/list?from=NBA_PC&columnId=100000&startTime=2017-10-18&endTime=2018-01-01&callback=ajaxExec",
+		// 10000, null);
+		// TagNode node = cleaner.clean(html);
+		// Object[] tables =
+		// node.evaluateXPath("//*[@id=\"m10\"]/div[2]/div[2]/div[2]/a/span");
+		StringBuffer buffer = new StringBuffer();
+		BufferedReader bf = new BufferedReader(new FileReader(fileName));
+		String s = null;
+		while ((s = bf.readLine()) != null) {// 使用readLine方法，一次读一行
+			buffer.append(s.trim());
+		}
+		bf.close();
+		String html= buffer.toString();
+		String json =html.replaceAll("ajaxExec\\(", "");
+		JSONObject jo = JSON.parseObject(json.replaceAll("\\)", ""));
+		JSONObject ja = jo.getJSONObject("data");
+		for (Map.Entry<String, Object> map : ja.entrySet()){
+			String value =map.getValue().toString();
+			JSONArray matchs=JSON.parseArray(value);
+			for(Object obj : matchs){
+				JSONObject match=(JSONObject)obj;
+				String str=map.getKey() + "==" 
+						+match.getString("leftName")+match.getString("rightName")
+						+match.getString("leftGoal")+match.getString("rightGoal");
+				ssmap.put(str,"");
+			}
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		String file1="C:\\Users\\fly\\git\\mpdemo\\src\\main\\resources\\2017NBA.txt";
+		String file2="C:\\Users\\fly\\git\\mpdemo\\src\\main\\resources\\2018NBA.txt";
+		Map<String,String> treeMap=new TreeMap<String,String>();
+		GrawNba gn=new GrawNba();
+		gn.sreachNBA(file1, treeMap);
+		gn.sreachNBA(file2, treeMap);
+		printList(getLikeByMap(treeMap, "开拓者爵士"));
+
+	}
+	public static void printList(List<String> list){
+		for(String s:list){
+			System.out.println(s);
+		}
+	}
+	public static List<String> getLikeByMap(Map<String, String>map,String keyLike){
+        List<String> list=new ArrayList<String>();        
+        for (Map.Entry<String, String> entity : map.entrySet()) {
+                            if(entity.getKey().indexOf(keyLike)>-1){
+                                    list.add(entity.getKey());
+                            }
+
+                    }    
+
+        return list;
+    }
+	
 
 	public Map<String, String> grawNbaList() throws Exception {
 		HtmlCleaner cleaner = new HtmlCleaner();
@@ -123,22 +191,24 @@ public class GrawNba {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 			}
-			map.put(getKey(key),set);
+			map.put(getKey(key), set);
 		}
 		return map;
 	}
-	private String getKey(String key){
-		try{
-			int a=key.indexOf(":");
-			int b=key.indexOf("@");
-			int c=key.indexOf("(");
-			return zuMap.get(key.substring(a+1, b).trim())+"vs"+zuMap.get(key.substring(b+1, c).trim());
-		}catch(Exception e){
+
+	private String getKey(String key) {
+		try {
+			int a = key.indexOf(":");
+			int b = key.indexOf("@");
+			int c = key.indexOf("(");
+			return zuMap.get(key.substring(a + 1, b).trim()) + "vs" + zuMap.get(key.substring(b + 1, c).trim());
+		} catch (Exception e) {
 			return key;
 		}
 	}
-	public static Map<String,String> zuMap=new HashMap<String,String>();
-	static{
+
+	public static Map<String, String> zuMap = new HashMap<String, String>();
+	static {
 		zuMap.put("San Antonio Spurs", "马刺");
 		zuMap.put("Memphis Grizzlies", "灰熊");
 		zuMap.put("Dallas Mavericks", "独行侠");

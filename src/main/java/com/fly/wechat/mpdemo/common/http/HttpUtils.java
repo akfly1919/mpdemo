@@ -19,7 +19,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.ConnectionConfig;
-import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -55,6 +54,7 @@ public class HttpUtils {
 	public static CloseableHttpClient getHttpClient() {
 		return getHttpClient(0, false);
 	}
+
 	public static CloseableHttpClient getHttpClient(int timeout) {
 		return getHttpClient(timeout, false);
 	}
@@ -80,6 +80,7 @@ public class HttpUtils {
 				public X509Certificate[] getAcceptedIssuers() {
 					return null;
 				}
+
 			};
 
 			try {
