@@ -83,24 +83,66 @@ public class GrawNba {
 			JSONArray matchs=JSON.parseArray(value);
 			for(Object obj : matchs){
 				JSONObject match=(JSONObject)obj;
-				String str=map.getKey() + "==" 
-						+match.getString("leftName")+match.getString("rightName")+"="
-						+(match.getIntValue("leftGoal")-match.getIntValue("rightGoal"));
-				ssmap.put(str,"");
+				String str=match.getString("leftName")+"VS"+match.getString("rightName")+" "+match.getIntValue("leftGoal")+":"+match.getIntValue("rightGoal");
+				if((match.getIntValue("leftGoal")-match.getIntValue("rightGoal"))>0){
+					String st1=map.getKey() + str+ "==" 
+							+match.getString("leftName")+"|"+match.getString("rightName")+"|1|0";
+					ssmap.put(st1,"");
+				}else{
+					String st1=map.getKey() +str+ "==" 
+							+match.getString("leftName")+"|"+match.getString("rightName")+"|0|1";
+					ssmap.put(st1,"");
+				}
+				
 			}
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
+	
+	public static void go(String a1,String a2) throws Exception{
 		String file1="C:\\Users\\fly\\git\\mpdemo\\src\\main\\resources\\2017NBA.txt";
 		String file2="C:\\Users\\fly\\git\\mpdemo\\src\\main\\resources\\2018NBA.txt";
 		Map<String,String> treeMap=new TreeMap<String,String>();
+		Map<String,Integer> socreMap=new TreeMap<String,Integer>();
+		socreMap.put(a1,0);
+		socreMap.put(a2,0);
 		GrawNba gn=new GrawNba();
 		gn.sreachNBA(file1, treeMap);
 		gn.sreachNBA(file2, treeMap);
-		printList(getLikeByMap(treeMap, "开拓者爵士"));
-		printList(getLikeByMap(treeMap, "爵士开拓者"));
+		List<String> a1List= getLikeByMap(treeMap, a1+"|"+a2);
+		List<String> a2List= getLikeByMap(treeMap, a2+"|"+a1);
+		printList(a1List);
+		printList(a2List);
+		List<String> list=new ArrayList<String>();
+		list.addAll(a1List);
+		list.addAll(a2List);
+		for(String s:list){
+			String s1=s.split("==")[1];
+			String[] ss=s1.split("\\|");
+			socreMap.put(ss[0],socreMap.get(ss[0])+Integer.valueOf(ss[2]));
+			socreMap.put(ss[1],socreMap.get(ss[1])+Integer.valueOf(ss[3]));
+		}
+		System.out.println(a1+"VS"+a2);
+		System.out.println(a1+socreMap.get(a1)+"胜"+socreMap.get(a2)+"败");
+		System.out.println(a2+socreMap.get(a2)+"胜"+socreMap.get(a1)+"败");
+	}
 
+	public static void main(String[] args) throws Exception {
+		List<String> list=new ArrayList<String>();
+		list.add("雷霆");
+		list.add("爵士");
+//		list.add("开拓者");
+//		list.add("爵士");
+//		list.add("鹈鹕");
+//		list.add("马刺");
+//		list.add("雷霆");
+//		list.add("森林狼");
+//		list.add("掘金");
+		for(int i=0;i<list.size()-1;i++){
+			for(int j=i+1;j<list.size();j++){
+				go(list.get(i),list.get(j));
+				System.out.println();
+			}
+		}
 	}
 	public static void printList(List<String> list){
 		for(String s:list){
