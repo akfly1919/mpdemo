@@ -16,13 +16,13 @@ public class MchInfo {
 	
 	public static  Logger log = Logger.getLogger(MchInfo.class);
 	
-	public static final String APPID = "wxc7781a4aa82f47a0";
+	public static final String APPID = "wxb3a1526c855619fe";
 
-	public static final String APPSECRET = "7d2886b6b9df7766f111b74428c83d13";
+	public static final String APPSECRET = "f20d53c04c641840ad67ced125ece31f";
 	
 	public static  Map<String,String> errcodeMap = new HashMap<String, String>();
 
-	private static String ACCESS_TOKEN = "fy_2JVUpsgxkWBHfSPa21wNu6OrJY7FtqQns7_qxM2O3pS4-ZVgDmr1wNtdgf5kpT26mMvo7v9lbdRMivRd-i55aeh5wCda1GQ4ZYPUE1VsFqyVu39IGSyJYX7q3OJkhFCAeABAIFD";
+	private static String ACCESS_TOKEN = "10_m0685enwvcsD6AWdhXMdDF_bYwkhm4c89mPIXJlDYDciMjFVEcsJ0WliYSCcV77bmDpATrSVmYVCEjue-2U9Q3F2JuBM3BhPJD52wuRcNrtxuMzspHGdzjUKR_QsEO9lYEFLKY6CozGLTsWxUXOcAHACFW";
 
 	static {
 		if (ACCESS_TOKEN == null || ACCESS_TOKEN.length() == 0) {

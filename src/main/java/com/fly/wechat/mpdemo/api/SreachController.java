@@ -17,10 +17,10 @@ public class SreachController {
 	@RequestMapping(value = "/createIndex.do")
 	public String createIndex(int count) {
 		Sreach s = new Sreach();
-		for (int i = 0; i < count; i = i + 5) {
+		for (int i = 0; i < count; i++) {
 			List<AppMsg> list;
 			try {
-				list = s.grawList(i, 5);
+				list = s.grawList(5*i, 5);
 				s.createIndex(list);
 			} catch (Exception e) {
 				e.printStackTrace();

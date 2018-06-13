@@ -114,9 +114,9 @@ public class MenuController extends BaseController{
 	
 	public static void main(String[] args) throws Throwable {
 		MenuController mc=new MenuController();
-//		mc.createMenu();
+		mc.createMenu();
 //		mc.getMenu();
-		mc.deleteMenu();
+//		mc.deleteMenu();
 //		mc.getCurrentMenu();
 //		mc.createPMenu();
 	}
