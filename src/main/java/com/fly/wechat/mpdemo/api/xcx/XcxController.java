@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.fly.wechat.mpdemo.api.BaseController;
 import com.fly.wechat.mpdemo.stat.Match;
 import com.fly.wechat.mpdemo.stat.Player;
+import com.fly.wechat.mpdemo.stat.Team;
 
 @Controller
 @RequestMapping("/xcx")
@@ -31,6 +32,20 @@ public class XcxController extends BaseController{
 	@RequestMapping("/updMatch.do")
 	public String updMatch(@ModelAttribute Match match) throws Throwable {
 		log.info("updMatch args:"+match);
+		Map<String,String> map=new HashMap<String,String>();
+		return JSON.toJSONString(map);
+	}
+	@ResponseBody
+	@RequestMapping("/addTeam.do")
+	public String addTeam(@ModelAttribute Team team) throws Throwable {
+		log.info("addTeam args:"+team);
+		Map<String,String> map=new HashMap<String,String>();
+		return JSON.toJSONString(map);
+	}
+	@ResponseBody
+	@RequestMapping("/updTeam.do")
+	public String updTeam(@ModelAttribute Team team) throws Throwable {
+		log.info("updTeam args:"+team);
 		Map<String,String> map=new HashMap<String,String>();
 		return JSON.toJSONString(map);
 	}
