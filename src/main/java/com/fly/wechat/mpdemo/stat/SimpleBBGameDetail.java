@@ -4,6 +4,7 @@ public class SimpleBBGameDetail {
 	private long id;
 	private long gameId;
 	private long teamId;
+	private long matchId;
 	private long playeId;
 	private int time;
 	private int score1;
