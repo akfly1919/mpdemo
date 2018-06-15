@@ -148,6 +148,37 @@ public class HttpUtils {
 
 		return r;
 	}
+	public static Response httpsGet(String url, String params, int timeout) throws Exception {
+		CloseableHttpClient httpClient = getHttpClient(timeout,true);
+		Response r = null;
+		try {
+			String u = wrapUri(url, params);
+			log.info("url:" + u);
+			HttpGet httpget = new HttpGet(u);
+			CloseableHttpResponse response = null;
+			try {
+				response = httpClient.execute(httpget);
+				r = new Response();
+				r.setStatusCode(response.getStatusLine().getStatusCode());
+				if (response.getStatusLine().getStatusCode() == 200) {
+					r.setResponseString(EntityUtils.toString(response.getEntity()));
+				}
+			} catch (Exception e) {
+				log.error("", e);
+				throw e;
+			} finally {
+				if (response != null) {
+					response.close();
+				}
+			}
+		} finally {
+			if (httpClient != null) {
+				httpClient.close();
+			}
+		}
+
+		return r;
+	}
 
 	/**
 	 * 支持post方法
