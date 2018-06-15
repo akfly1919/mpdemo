@@ -17,10 +17,22 @@
 	</settings>
 	<typeAliases>
 	    <typeAlias alias="Game" type="com.fly.wechat.mpdemo.match.model.Game"/>
+	    <typeAlias alias="GamePlayerDetail" type="com.fly.wechat.mpdemo.match.model.GamePlayerDetail"/>
+	    <typeAlias alias="Match" type="com.fly.wechat.mpdemo.match.model.Match"/>
+	    <typeAlias alias="MatchTeam" type="com.fly.wechat.mpdemo.match.model.MatchTeam"/>
+	    <typeAlias alias="Player" type="com.fly.wechat.mpdemo.match.model.Player"/>
+	    <typeAlias alias="Team" type="com.fly.wechat.mpdemo.match.model.Team"/>
+	    <typeAlias alias="TeamPlayer" type="com.fly.wechat.mpdemo.match.model.TeamPlayer"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="com/fly/wechat/mpdemo/match/xml/GameMapper.xml"/>
+		<mapper resource="com/fly/wechat/mpdemo/match/xml/GamePlayerDetailMapper.xml"/>
+		<mapper resource="com/fly/wechat/mpdemo/match/xml/MatchMapper.xml"/>
+		<mapper resource="com/fly/wechat/mpdemo/match/xml/MatchTeamMapper.xml"/>
+		<mapper resource="com/fly/wechat/mpdemo/match/xml/PlayerMapper.xml"/>
+		<mapper resource="com/fly/wechat/mpdemo/match/xml/TeamMapper.xml"/>
+		<mapper resource="com/fly/wechat/mpdemo/match/xml/TeamPlayerMapper.xml"/>
 	</mappers>
 
 </configuration> 

@@ -322,4 +322,12 @@ public class Match {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
+	@Override
+	public String toString() {
+		return "Match [id=" + id + ", name=" + name + ", desc=" + desc + ", openid=" + openid + ", unionid=" + unionid
+				+ ", token=" + token + ", status=" + status + ", begtime=" + begtime + ", endtime=" + endtime
+				+ ", createTime=" + createTime + "]";
+	}
+    
 }
