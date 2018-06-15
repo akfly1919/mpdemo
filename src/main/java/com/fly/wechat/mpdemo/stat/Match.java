@@ -9,5 +9,6 @@ public class Match {
 	private String desc;
 	private String openId;
 	private String unionId;
+	private String token;
 	private Date createTime;
 }

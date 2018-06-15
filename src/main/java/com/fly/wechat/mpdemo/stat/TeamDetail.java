@@ -8,6 +8,6 @@ public class TeamDetail {
 	private long gameId;
 	private long matchId;
 	private int score;
-	private int result;//0 期权 1失败 2成功
+	private int result;//0 弃权 1失败 2成功
 	private Date createTime;
 }
