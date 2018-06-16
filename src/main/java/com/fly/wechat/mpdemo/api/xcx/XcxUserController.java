@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fly.wechat.mpdemo.api.BaseController;
 import com.fly.wechat.mpdemo.common.http.HttpUtils;
 import com.fly.wechat.mpdemo.common.http.Response;
@@ -18,20 +20,16 @@ public class XcxUserController extends BaseController{
 //	static String JSCODE="071AXB2P0K6f4c2Khu2P01Uu2P0AXB2U";
 	@ResponseBody
 	@RequestMapping("/login.do")
-	public String login(String jscode) throws Throwable {
+	public String login(String jscode,String encryptedData,String iv) throws Throwable {
 		//{"session_key":"8P9xDI\/dgzdmpILPT+crbg==","openid":"o7TVV4znQz3p60Ph1ssqPBJJXv50"}
 		log.info("login jscode:"+jscode);
 		String u=url.replaceAll("APPID", APPID)
 				.replaceAll("SECRET", SECRET).replaceAll("JSCODE", jscode);
 		Response response=HttpUtils.httpsGet(u, null, 2000);
 		log.info("login response:"+response.getResponseString());
-		return response.getResponseString();
-	}
-	@ResponseBody
-	@RequestMapping("/getUserInfo.do")
-	public String getUserInfo(String encryptedData,String iv) throws Throwable {
-		//{"session_key":"8P9xDI\/dgzdmpILPT+crbg==","openid":"o7TVV4znQz3p60Ph1ssqPBJJXv50"}
-		String sessionKey="";
-		return WXCore.decrypt(APPID, encryptedData, sessionKey, iv);
+		JSONObject Jobj=JSON.parseObject(response.getResponseString());
+		String s=WXCore.decrypt(APPID, encryptedData, Jobj.getString("session_key"), iv);
+		log.info("getUserInfo s:"+s);
+		return s;
 	}
 }
