@@ -19,10 +19,11 @@ import com.fly.wechat.mpdemo.match.dao.TeamMapper;
 import com.fly.wechat.mpdemo.match.model.Match;
 import com.fly.wechat.mpdemo.match.model.Player;
 import com.fly.wechat.mpdemo.match.model.Team;
+import com.fly.wechat.mpdemo.match.util.WXCore;
 import com.mysql.jdbc.StringUtils;
 
 @Controller
-@RequestMapping("/xcx")
+@RequestMapping("/xcx/yewu")
 public class XcxController extends BaseController{
 	String APPID="wx0a1b3ce5d441c49f";
 	String SECRET="a5351b4a745535eb379b0bd47b6c0f6e";
@@ -40,6 +41,7 @@ public class XcxController extends BaseController{
 		}
 		match.setStatus("0");
 		match.setCreateTime(new Date());
+		match.setToken(WXCore.buildToken());
 		matchMapper.insertSelective(match);
 		return toJsonString(success());
 	}
@@ -71,6 +73,7 @@ public class XcxController extends BaseController{
 		}
 		team.setStatus("0");
 		team.setCreateTime(new Date());
+		team.setToken(WXCore.buildToken());
 		teamMapper.insertSelective(team);
 		return toJsonString(success());
 	}

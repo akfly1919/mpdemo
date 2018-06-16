@@ -152,9 +152,6 @@
 			<if test="openid != null">
 				openId = #{openid,jdbcType=VARCHAR},
 			</if>
-			<if test="token != null">
-				token = #{token,jdbcType=VARCHAR},
-			</if>
 			<if test="createTime != null">
 				create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>

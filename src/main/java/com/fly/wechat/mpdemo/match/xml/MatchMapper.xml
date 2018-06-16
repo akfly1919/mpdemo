@@ -179,9 +179,6 @@
       <if test="unionid != null" >
         unionid = #{unionid,jdbcType=VARCHAR},
       </if>
-      <if test="token != null" >
-        token = #{token,jdbcType=VARCHAR},
-      </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>

@@ -34,4 +34,16 @@
 		<property name="prefix" value="/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		<!-- <bean class="com.bybo.aca.web.interceptor.Login"/> -->
+		<mvc:interceptor>
+			<!-- 进行拦截：/**表示拦截所有controller -->
+			<mvc:mapping path="/xcx/yewu/*" />
+			<!-- 不进行拦截 -->
+			<mvc:exclude-mapping path="/xcx/user/*" />
+
+			<bean class="com.fly.wechat.mpdemo.api.xcx.XcxHandlerInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>
