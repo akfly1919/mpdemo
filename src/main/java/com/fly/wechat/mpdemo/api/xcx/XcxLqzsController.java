@@ -20,12 +20,12 @@ public class XcxLqzsController extends BaseController{
 	@RequestMapping("/list.do")
 	public String getUserInfo() throws Throwable {
 		List<Map<String,String>> list=new ArrayList<Map<String,String>>();
-		Map<String,String> map=new HashMap<String,String>();
-		map.put("url", "http://mp.weixin.qq.com/s?__biz=MzA3NTkwMDAwMg==&mid=2649601472&idx=1&sn=b559d34d14433f6cd6ec5077f626c670#rd");
-		map.put("picUrl", "https://mmbiz.qlogo.cn/mmbiz/VPKUdic338ZHqkvUzVFyxjSYtqk0wzKfhOSw91zBYKtfyzwy7rLhejicVicicq6qs46QHoooSbpbuTCLVQnaEwuXyA/0?wx_fmt=jpeg");
-		map.put("title", "关于篮球，关于生活");
-		map.put("description", "假实现，未来提供");
 		for(int i=0;i<10;i++){
+			Map<String,String> map=new HashMap<String,String>();
+			map.put("url", "http://mp.weixin.qq.com/s?__biz=MzA3NTkwMDAwMg==&mid=2649601472&idx=1&sn=b559d34d14433f6cd6ec5077f626c670#rd");
+			map.put("picUrl", "https://mmbiz.qlogo.cn/mmbiz/VPKUdic338ZHqkvUzVFyxjSYtqk0wzKfhOSw91zBYKtfyzwy7rLhejicVicicq6qs46QHoooSbpbuTCLVQnaEwuXyA/0?wx_fmt=jpeg");
+			map.put("title", "关于篮球，关于生活");
+			map.put("description", "假实现，未来提供");
 			list.add(map);
 		}
 		return JSON.toJSONString(list);
