@@ -1,5 +1,7 @@
 package com.fly.wechat.mpdemo.match.dao;
 
+import java.util.List;
+
 import com.fly.wechat.mpdemo.match.model.Team;
 
 public interface TeamMapper {
@@ -50,4 +52,6 @@ public interface TeamMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Team record);
+    
+    List<Team> selectByTeam(Team record);
 }

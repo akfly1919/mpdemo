@@ -11,7 +11,7 @@ import com.fly.wechat.mpdemo.match.util.WXCore;
 
 @Controller
 @RequestMapping("/xcx/user")
-public class WXCUserController extends BaseController{
+public class XcxUserController extends BaseController{
 	static String APPID="wxc20a02533ffcc185";
 	static String SECRET="b27a9c146065d5657ad541dccc32a879";
 	static String url="https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";

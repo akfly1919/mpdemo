@@ -7,7 +7,7 @@ import com.fly.wechat.mpdemo.match.dao.GameMapper;
 import com.fly.wechat.mpdemo.match.model.Game;
 @Repository
 public class GameMapperImpl extends BaseMapper  implements GameMapper{
-	public String name="com.xiaomi.migc.balance.dao.BalanceDetailMapper.";
+	public String name="com.fly.wechat.mpdemo.match.dao.GameMapper.";
 
 	@Override
 	public int deleteByPrimaryKey(Long id) {

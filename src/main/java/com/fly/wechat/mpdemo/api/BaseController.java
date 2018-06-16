@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.entity.ContentType;
 import org.apache.log4j.Logger;
 
+import com.alibaba.fastjson.JSON;
 import com.fly.wechat.mpdemo.common.BeanUtil;
 import com.fly.wechat.mpdemo.common.http.HttpUtils;
 import com.fly.wechat.mpdemo.common.http.Response;
@@ -23,6 +26,24 @@ public class BaseController {
 	String token = "jiayou";
 	
 	protected int d_timeout=5000;
+	
+	public Map<String,String> success(){
+		Map<String,String> success=new HashMap<String,String>();
+		success.put("code", "200");
+		return success;
+	}
+	public Map<String,String> map(String code,String msg){
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("code", code);
+		map.put("msg", msg);
+		return map;
+	}
+	
+	public String toJsonString(Object obj){
+		String s=JSON.toJSONString(obj);
+		log.info("toJsonString:"+s);
+		return s;
+	}
 
 	String access(HttpServletRequest request, HttpServletResponse response) {
 		String signature = request.getParameter("signature");

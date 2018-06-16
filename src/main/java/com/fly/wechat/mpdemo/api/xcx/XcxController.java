@@ -1,6 +1,8 @@
 package com.fly.wechat.mpdemo.api.xcx;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.fly.wechat.mpdemo.api.BaseController;
 import com.fly.wechat.mpdemo.match.dao.MatchMapper;
+import com.fly.wechat.mpdemo.match.dao.TeamMapper;
 import com.fly.wechat.mpdemo.match.model.Match;
 import com.fly.wechat.mpdemo.match.model.Player;
 import com.fly.wechat.mpdemo.match.model.Team;
+import com.mysql.jdbc.StringUtils;
 
 @Controller
 @RequestMapping("/xcx")
@@ -25,34 +29,66 @@ public class XcxController extends BaseController{
 	String url="https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code";
 	@Resource
 	private MatchMapper matchMapper;
+	@Resource
+	private TeamMapper teamMapper;
 	@ResponseBody
 	@RequestMapping("/addMatch.do")
 	public String addMatch(@ModelAttribute Match match) throws Throwable {
 		log.info("addMatch args:"+match);
+		if(match.getOpenid()==null||StringUtils.isNullOrEmpty(match.getName())){
+			return JSON.toJSONString(map("301","openid is null"));
+		}
+		match.setStatus("0");
+		match.setCreateTime(new Date());
 		matchMapper.insertSelective(match);
-		Map<String,String> map=new HashMap<String,String>();
-		return JSON.toJSONString(map);
+		return toJsonString(success());
 	}
 	@ResponseBody
 	@RequestMapping("/updMatch.do")
 	public String updMatch(@ModelAttribute Match match) throws Throwable {
 		log.info("updMatch args:"+match);
-		Map<String,String> map=new HashMap<String,String>();
-		return JSON.toJSONString(map);
+		if(match.getId()==null||match.getOpenid()==null){
+			return JSON.toJSONString(map("301","id or openid is null"));
+		}
+		matchMapper.updateByPrimaryKeySelective(match);
+		return toJsonString(success());
+	}
+	@ResponseBody
+	@RequestMapping("/selMatch.do")
+	public String selMatch(@ModelAttribute Match match) throws Throwable {
+		log.info("selMatch args:"+match);
+		List<Match> list=matchMapper.selectByMatch(match);
+		Map<String,String> map=success();
+		map.put("data", JSON.toJSONString(list));
+		return toJsonString(map);
 	}
 	@ResponseBody
 	@RequestMapping("/addTeam.do")
 	public String addTeam(@ModelAttribute Team team) throws Throwable {
 		log.info("addTeam args:"+team);
-		Map<String,String> map=new HashMap<String,String>();
-		return JSON.toJSONString(map);
+		if(team.getOpenid()==null||StringUtils.isNullOrEmpty(team.getName())){
+			return JSON.toJSONString(map("301","openid is null"));
+		}
+		team.setStatus("0");
+		team.setCreateTime(new Date());
+		teamMapper.insertSelective(team);
+		return toJsonString(success());
 	}
 	@ResponseBody
 	@RequestMapping("/updTeam.do")
 	public String updTeam(@ModelAttribute Team team) throws Throwable {
 		log.info("updTeam args:"+team);
-		Map<String,String> map=new HashMap<String,String>();
-		return JSON.toJSONString(map);
+		teamMapper.updateByPrimaryKey(team);
+		return toJsonString(success());
+	}
+	@ResponseBody
+	@RequestMapping("/selTeam.do")
+	public String selTeam(@ModelAttribute Team team) throws Throwable {
+		log.info("selTeam args:"+team);
+		List<Team> list=teamMapper.selectByTeam(team);
+		Map<String,String> map=success();
+		map.put("data", JSON.toJSONString(list));
+		return toJsonString(map);
 	}
 	
 	@ResponseBody

@@ -1,5 +1,7 @@
 package com.fly.wechat.mpdemo.match.dao;
 
+import java.util.List;
+
 import com.fly.wechat.mpdemo.match.model.Match;
 
 public interface MatchMapper {
@@ -50,4 +52,6 @@ public interface MatchMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Match record);
+    
+    List<Match> selectByMatch(Match record);
 }

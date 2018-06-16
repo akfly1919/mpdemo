@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.fly.wechat.mpdemo.match.dao.BaseMapper;
-import com.fly.wechat.mpdemo.match.dao.MatchMapper;
+import com.fly.wechat.mpdemo.match.dao.TeamMapper;
 import com.fly.wechat.mpdemo.match.model.Game;
-import com.fly.wechat.mpdemo.match.model.Match;
+import com.fly.wechat.mpdemo.match.model.Team;
 @Repository
-public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
-	public String name="com.fly.wechat.mpdemo.match.dao.MatchMapper.";
+public class TeamMapperImpl extends BaseMapper  implements TeamMapper{
+	public String name="com.fly.wechat.mpdemo.match.dao.TeamMapper.";
 
 	@Override
 	public int deleteByPrimaryKey(Long id) {
@@ -19,42 +19,40 @@ public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
 	}
 
 	@Override
-	public int insert(Match record) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"insert",record);
-	}
-
-	@Override
-	public int insertSelective(Match record) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"insertSelective",record);
-	}
-
-	@Override
-	public Match selectByPrimaryKey(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int updateByPrimaryKeySelective(Match record) {
-		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"updateByPrimaryKeySelective",record);
-	}
-
-	@Override
-	public int updateByPrimaryKey(Match record) {
+	public int insert(Team record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public List<Match> selectByMatch(Match record) {
+	public int insertSelective(Team record) {
 		// TODO Auto-generated method stub
-		return (List<Match>) sqlSessionTemplate.selectList(name+"selectByMatch",record);
+		return sqlSessionTemplate.insert(name+"insert",record);
 	}
 
-	
-	
+	@Override
+	public Team selectByPrimaryKey(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(Team record) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.insert(name+"updateByPrimaryKeySelective",record);
+	}
+
+	@Override
+	public int updateByPrimaryKey(Team record) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Team> selectByTeam(Team record) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
