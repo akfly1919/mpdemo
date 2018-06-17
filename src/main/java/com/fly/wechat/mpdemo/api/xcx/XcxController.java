@@ -1,16 +1,23 @@
 package com.fly.wechat.mpdemo.api.xcx;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.fly.wechat.mpdemo.api.BaseController;
@@ -110,10 +117,33 @@ public class XcxController extends BaseController{
 		return JSON.toJSONString(map);
 	}
 	@ResponseBody
-	@RequestMapping("/getUserInfo.do")
-	public String getUserInfo() throws Throwable {
-		Map<String,String> map=new HashMap<String,String>();
-		return JSON.toJSONString(map);
+	@RequestMapping("/upload.do")
+	public String upload(HttpServletRequest request) throws Throwable {
+        //将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
+       CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(
+               request.getSession().getServletContext());
+       //检查form中是否有enctype="multipart/form-data"
+       List<String> images=new ArrayList<String>();
+       if(multipartResolver.isMultipart(request)){
+           //将request变成多部分request
+           MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+          //获取multiRequest 中所有的文件名
+           Iterator iter=multiRequest.getFileNames();
+           int i=0;
+           String n1=System.currentTimeMillis()+"";
+           while(iter.hasNext()){
+        	   String fileName=""; 
+               //一次遍历所有文件
+               MultipartFile file=multiRequest.getFile(iter.next().toString());
+               if(file!=null){
+            	   fileName=n1+i+file.getOriginalFilename();
+                   String path="/home/images/"+fileName;
+                   file.transferTo(new File(path));
+               }
+               images.add("https://fei.coucang.com/"+fileName);
+           }
+       }
+		return JSON.toJSONString(images);
 	}
 	
 	
