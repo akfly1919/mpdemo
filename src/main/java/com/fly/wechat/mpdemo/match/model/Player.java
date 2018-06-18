@@ -290,4 +290,11 @@ public class Player {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+	@Override
+	public String toString() {
+		return "Player [id=" + id + ", name=" + name + ", openid=" + openid + ", unionid=" + unionid + ", bri=" + bri
+				+ ", height=" + height + ", weight=" + weight + ", pos=" + pos + ", desc=" + desc + "]";
+	}
+    
 }

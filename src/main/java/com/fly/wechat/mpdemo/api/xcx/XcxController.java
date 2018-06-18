@@ -22,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.alibaba.fastjson.JSON;
 import com.fly.wechat.mpdemo.api.BaseController;
 import com.fly.wechat.mpdemo.match.dao.MatchMapper;
+import com.fly.wechat.mpdemo.match.dao.PlayerMapper;
 import com.fly.wechat.mpdemo.match.dao.TeamMapper;
 import com.fly.wechat.mpdemo.match.model.Match;
 import com.fly.wechat.mpdemo.match.model.Player;
@@ -39,6 +40,8 @@ public class XcxController extends BaseController{
 	private MatchMapper matchMapper;
 	@Resource
 	private TeamMapper teamMapper;
+	@Resource
+	private PlayerMapper playerMapper;
 	@ResponseBody
 	@RequestMapping("/addMatch.do")
 	public String addMatch(@ModelAttribute Match match) throws Throwable {
@@ -105,16 +108,30 @@ public class XcxController extends BaseController{
 	@RequestMapping("/addPlayer.do")
 	public String addPlayer(@ModelAttribute Player player) throws Throwable {
 		log.info("addMatch args:"+player);
-		Map<String,String> map=new HashMap<String,String>();
-		return JSON.toJSONString(map);
+		Map<String,String> map=success();
+		return toJsonString(map);
 	}
 	
 	@ResponseBody
 	@RequestMapping("/updPlayer.do")
 	public String updPlayer(@ModelAttribute Player player) throws Throwable {
 		log.info("updPlayer args:"+player);
-		Map<String,String> map=new HashMap<String,String>();
-		return JSON.toJSONString(map);
+		Player p=new Player();
+		p.setOpenid(player.getOpenid());
+		List<Player> players=playerMapper.selectByPlayer(p);
+		if(players!=null){
+			if(players.size()==0){
+				playerMapper.insertSelective(player);
+			}else{
+				playerMapper.updateByPrimaryKeySelective(player);
+			}
+		}
+		List<Player> retP=playerMapper.selectByPlayer(p);
+		Map<String,String> map=success();
+		if(retP!=null&&retP.size()==1){
+			map.put("data", JSON.toJSONString(retP.get(0)));
+		}
+		return toJsonString(map);
 	}
 	@ResponseBody
 	@RequestMapping("/upload.do")

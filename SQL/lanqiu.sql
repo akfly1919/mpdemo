@@ -9,7 +9,7 @@
  Target Server Version : 50633
  File Encoding         : utf-8
 
- Date: 06/18/2018 01:01:31 AM
+ Date: 06/18/2018 11:05:04 AM
 */
 
 SET NAMES utf8;
@@ -93,25 +93,6 @@ CREATE TABLE `lq_match` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
---  Table structure for `match`
--- ----------------------------
-DROP TABLE IF EXISTS `match`;
-CREATE TABLE `match` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `desc` varchar(255) DEFAULT NULL,
-  `openid` varchar(100) DEFAULT NULL,
-  `unionid` varchar(255) DEFAULT NULL,
-  `token` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `begTime` timestamp NULL DEFAULT NULL,
-  `endTime` timestamp NULL DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `openid` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
 --  Table structure for `match_team`
 -- ----------------------------
 DROP TABLE IF EXISTS `match_team`;
@@ -129,7 +110,7 @@ CREATE TABLE `match_team` (
 -- ----------------------------
 DROP TABLE IF EXISTS `player`;
 CREATE TABLE `player` (
-  `id` bigint(20) NOT NULL DEFAULT '0',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `openid` varchar(100) DEFAULT NULL,
   `unionid` varchar(255) DEFAULT NULL,
@@ -137,7 +118,7 @@ CREATE TABLE `player` (
   `height` int(11) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL,
   `pos` varchar(255) DEFAULT NULL,
-  `desc` varchar(255) DEFAULT NULL,
+  `lq_desc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `openid` (`openid`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,5 +1,7 @@
 package com.fly.wechat.mpdemo.match.dao;
 
+import java.util.List;
+
 import com.fly.wechat.mpdemo.match.model.Player;
 
 public interface PlayerMapper {
@@ -50,4 +52,6 @@ public interface PlayerMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Player record);
+    
+    List<Player> selectByPlayer(Player record);
 }
