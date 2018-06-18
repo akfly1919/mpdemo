@@ -68,6 +68,7 @@ public class Match {
     private Date begtime;
     
     private int num;
+    private int groupNum;
     
     private String picUrl;
 
@@ -343,11 +344,20 @@ public class Match {
         this.createTime = createTime;
     }
 
+	public int getGroupNum() {
+		return groupNum;
+	}
+
+	public void setGroupNum(int groupNum) {
+		this.groupNum = groupNum;
+	}
+
 	@Override
 	public String toString() {
 		return "Match [id=" + id + ", name=" + name + ", desc=" + desc + ", openid=" + openid + ", unionid=" + unionid
-				+ ", token=" + token + ", status=" + status + ", begtime=" + begtime + ", num=" + num + ", picUrl="
-				+ picUrl + ", endtime=" + endtime + ", createTime=" + createTime + "]";
+				+ ", token=" + token + ", status=" + status + ", begtime=" + begtime + ", num=" + num + ", groupNum="
+				+ groupNum + ", picUrl=" + picUrl + ", endtime=" + endtime + ", createTime=" + createTime + "]";
 	}
+
     
 }

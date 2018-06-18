@@ -3,7 +3,6 @@ package com.fly.wechat.mpdemo.api.xcx;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +19,19 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.fly.wechat.mpdemo.api.BaseController;
+import com.fly.wechat.mpdemo.common.DateUtil;
+import com.fly.wechat.mpdemo.common.RandomStringUtils;
+import com.fly.wechat.mpdemo.match.dao.GameMapper;
 import com.fly.wechat.mpdemo.match.dao.MatchMapper;
 import com.fly.wechat.mpdemo.match.dao.PlayerMapper;
 import com.fly.wechat.mpdemo.match.dao.TeamMapper;
+import com.fly.wechat.mpdemo.match.model.Game;
 import com.fly.wechat.mpdemo.match.model.Match;
 import com.fly.wechat.mpdemo.match.model.Player;
 import com.fly.wechat.mpdemo.match.model.Team;
+import com.fly.wechat.mpdemo.match.util.CommonUtils;
 import com.fly.wechat.mpdemo.match.util.WXCore;
 import com.mysql.jdbc.StringUtils;
 
@@ -42,6 +47,8 @@ public class XcxController extends BaseController{
 	private TeamMapper teamMapper;
 	@Resource
 	private PlayerMapper playerMapper;
+	@Resource
+	private GameMapper gameMapper;
 	@ResponseBody
 	@RequestMapping("/addMatch.do")
 	public String addMatch(@ModelAttribute Match match) throws Throwable {
@@ -53,6 +60,97 @@ public class XcxController extends BaseController{
 		match.setCreateTime(new Date());
 		match.setToken(WXCore.buildToken());
 		matchMapper.insertSelective(match);
+		Match re=new Match();
+		re.setToken(match.getToken());
+		re=matchMapper.selectByMatch(re).get(0);
+		Map<String,String> map=success();
+		int num=match.getNum();
+		int groupNum=match.getGroupNum();
+		String group="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		int count=num/groupNum;
+		List<Team> teams=new ArrayList<Team>();
+		//生成球队
+		for(int i=1;i<=num;i++){
+			Team t=new Team();
+			//生成id
+			t.setOpenid(match.getOpenid());
+			t.setToken(RandomStringUtils.generateString(6));
+			t.setName(group.charAt(i/count)+""+(i>count?i-count:i));
+			teams.add(t);
+			teamMapper.insert(t);
+		}
+		for(int i=0;i<groupNum;i++){
+			String s=group.charAt(i)+"";
+			List<Game> list=null;
+			if(i==(groupNum-1)){
+				list=CommonUtils.shuffle(s, num-i*count, num);
+			}else{
+				list=CommonUtils.shuffle(s, count, num);
+			}
+			for(Game g:list){
+				g.setMatchId(re.getId());
+				g.setAid(aid);
+				gameMapper.insertSelective(g);
+			}
+		}
+		
+		map.put("data", JSON.toJSONString(teams));
+		return toJsonString(map);
+	}
+	@RequestMapping("/buildSC.do")
+	//dataJson=[1|name]
+	public String buildSC(String matchId,String dataJson) throws Throwable {
+		JSONArray ja=JSON.parseArray(dataJson);
+		for(int i=0;i<ja.size();i++){
+			Team t=new Team();
+			String s=ja.getString(i);
+			String[] ss=s.split("|");
+			t.setId(Long.valueOf(ss[0]));
+			t.setName(ss[1]);
+			teamMapper.updateByPrimaryKeySelective(t);
+		}
+		
+		return toJsonString(success());
+	}
+	@RequestMapping("/saveSC.do")
+	//dataJson=[1|2018-08-08 18:48:48]
+	public String saveSC(String matchId,String dataJson) throws Throwable {
+		JSONArray ja=JSON.parseArray(dataJson);
+		for(int i=0;i<ja.size();i++){
+			Game g=new Game();
+			String s=ja.getString(i);
+			String[] ss=s.split("|");
+			g.setId(Long.valueOf(ss[0]));
+			g.setGameTime(DateUtil.parseStrToDate(ss[2], DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
+			gameMapper.updateByPrimaryKeySelective(g);
+		}
+		return toJsonString(success());
+	}
+	
+	@RequestMapping("/updA1.do")
+	//dataJson=[A|1|teamId]
+	public String updA1(String matchId,String dataJson) throws Throwable {
+		JSONArray ja=JSON.parseArray(dataJson);
+		for(int i=0;i<ja.size();i++){
+			Game g=new Game();
+			String s=ja.getString(i);
+			String[] ss=s.split("|");
+			g.setId(Long.valueOf(ss[0]));
+			gameMapper.updateByPrimaryKeySelective(g);
+		}
+		return toJsonString(success());
+	}
+	@RequestMapping("/updA1k.do")
+	//dataJson=[A|1|teamId]
+	public String updA1k(String matchId,String dataJson) throws Throwable {
+		JSONArray ja=JSON.parseArray(dataJson);
+		for(int i=0;i<ja.size();i++){
+			Game g=new Game();
+			String s=ja.getString(i);
+			String[] ss=s.split("|");
+			g.setId(Long.valueOf(ss[0]));
+			gameMapper.updateByPrimaryKeySelective(g);
+		}
 		return toJsonString(success());
 	}
 	@ResponseBody
@@ -162,6 +260,5 @@ public class XcxController extends BaseController{
        }
 		return JSON.toJSONString(images);
 	}
-	
 	
 }
