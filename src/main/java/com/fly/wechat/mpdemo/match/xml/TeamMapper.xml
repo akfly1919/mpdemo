@@ -65,6 +65,20 @@
     from team
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByTeam" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.Team" >
+    select 
+    <include refid="Base_Column_List" />
+    from team
+    where 
+    <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <select id="selectByMatchId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    a.team_id as team_id, a.name as name, pic_url, lq_desc, a.status as status, openId, token
+    from team a LEFT JOIN match_team b on a.team_id=b.team_id where b.match_id=#{teamId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from team
     where id = #{id,jdbcType=BIGINT}
@@ -195,7 +209,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where team_id = #{team_id,jdbcType=VARCHAR}
+    where team_id = #{teamId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fly.wechat.mpdemo.match.model.Team" >
     update team

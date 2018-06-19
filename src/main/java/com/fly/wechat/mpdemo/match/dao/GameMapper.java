@@ -1,8 +1,9 @@
 package com.fly.wechat.mpdemo.match.dao;
 
+import java.util.List;
+
 import com.fly.wechat.mpdemo.match.model.Game;
 import com.fly.wechat.mpdemo.match.model.GameExample;
-import java.util.List;
 
 public interface GameMapper {
     int deleteByPrimaryKey(Long id);

@@ -76,13 +76,13 @@
     from game
     where 
       <if test="id != null" >
-        #{id,jdbcType=BIGINT} and 
+        id = #{id,jdbcType=BIGINT} and 
       </if>
       <if test="matchId != null" >
-        #{matchId,jdbcType=VARCHAR} and
+        match_id = #{matchId,jdbcType=VARCHAR} and
       </if>
       <if test="gameId != null" >
-        #{gameId,jdbcType=VARCHAR} and
+        game_id = #{gameId,jdbcType=VARCHAR} and
       </if>
       1=1 
   </select>

@@ -12,6 +12,10 @@ public interface TeamMapper {
 	int insertSelective(Team record);
 
 	List<Team> selectByExample(TeamExample example);
+	
+	List<Team> selectByTeam(Team team);
+	
+	List<Team> selectByMatchId(String matchId);
 
 	Team selectByPrimaryKey(Long id);
 

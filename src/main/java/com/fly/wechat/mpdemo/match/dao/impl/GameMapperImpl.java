@@ -66,5 +66,4 @@ public class GameMapperImpl extends BaseMapper  implements GameMapper{
 		return (List<Game>) sqlSessionTemplate.selectList(name+"selectByGame",example);
 	}
 
-
 }

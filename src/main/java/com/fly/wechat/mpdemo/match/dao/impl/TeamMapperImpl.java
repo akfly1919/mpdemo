@@ -61,4 +61,16 @@ public class TeamMapperImpl extends BaseMapper  implements TeamMapper{
 		return sqlSessionTemplate.update(name+"updateByTeamIdSelective", record);
 	}
 
+	@Override
+	public List<Team> selectByTeam(Team example) {
+		// TODO Auto-generated method stub
+		return (List<Team>) sqlSessionTemplate.selectList(name+"selectByTeam",example);
+	}
+
+	@Override
+	public List<Team> selectByMatchId(String matchId) {
+		// TODO Auto-generated method stub
+		return (List<Team>) sqlSessionTemplate.selectList(name+"selectByMatchId",matchId);
+	}
+
 }

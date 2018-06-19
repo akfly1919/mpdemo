@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50633
 File Encoding         : 65001
 
-Date: 2018-06-19 14:40:49
+Date: 2018-06-19 15:21:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,7 +40,6 @@ CREATE TABLE `game` (
 -- ----------------------------
 -- Records of game
 -- ----------------------------
-INSERT INTO `game` VALUES ('1', null, null, '1', null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `game_player_detail`
@@ -93,28 +92,20 @@ CREATE TABLE `lq_match` (
   `openid` varchar(100) DEFAULT NULL,
   `unionid` varchar(255) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `status` varchar(4) DEFAULT '0',
   `num` int(4) DEFAULT NULL,
-  `groupNum` int(4) NOT NULL,
+  `groupNum` int(4) DEFAULT NULL,
   `picUrl` varchar(255) DEFAULT NULL,
   `begTime` timestamp NULL DEFAULT NULL,
   `endTime` timestamp NULL DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `openid` (`openid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of lq_match
 -- ----------------------------
-INSERT INTO `lq_match` VALUES ('1', '', '222', null, '1', null, null, null, '0', '0', '', null, null, null);
-INSERT INTO `lq_match` VALUES ('2', '', '1', null, null, null, null, null, '0', '0', '', null, null, null);
-INSERT INTO `lq_match` VALUES ('3', '', '1', null, null, null, null, null, '0', '0', '', null, null, null);
-INSERT INTO `lq_match` VALUES ('4', '', '11', null, null, null, null, null, '0', '0', '', null, null, null);
-INSERT INTO `lq_match` VALUES ('5', '', '11', null, null, null, null, null, '0', '0', '', null, null, null);
-INSERT INTO `lq_match` VALUES ('6', '', '11', null, '1', null, 'jakMCB15', '0', '10', '0', 'aadads', null, null, '2018-06-17 00:48:40');
-INSERT INTO `lq_match` VALUES ('7', '', '1', null, 'o7TVV4xTqDGZox2VCyOAtKHc6SeU', null, 'hWdVaR44', '0', '2', '0', 'http://tmp/wxc20a02533ffcc185.o6zAJs-tQNtZo0vXlDTdRFS5Q6ek.stwo3H6bR7GPe79d58460318e578174986eb0891a9fd.png', null, null, '2018-06-18 01:00:32');
-INSERT INTO `lq_match` VALUES ('8', '', '小米', null, 'o7TVV4znQz3p60Ph1ssqPBJJXv50', null, 'kdNPoU36', '0', '10', '0', 'undefined', null, null, '2018-06-18 11:23:02');
 
 -- ----------------------------
 -- Table structure for `match_team`
@@ -132,7 +123,7 @@ CREATE TABLE `match_team` (
   `point` varchar(100) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of match_team
@@ -170,14 +161,14 @@ CREATE TABLE `team` (
   `name` varchar(255) DEFAULT NULL,
   `pic_url` varchar(255) DEFAULT NULL,
   `lq_desc` varchar(255) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `status` varchar(4) DEFAULT '0',
   `openId` varchar(100) DEFAULT NULL,
   `token` varchar(255) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `teamId` (`team_id`),
   KEY `openId` (`openId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of team

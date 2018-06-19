@@ -12,6 +12,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,27 +56,34 @@ public class XcxController extends BaseController{
 	private PlayerMapper playerMapper;
 	@Resource
 	private GameMapper gameMapper;
+	@Autowired
+	private ThreadPoolTaskExecutor myPool;
 	@ResponseBody
 	@RequestMapping("/addMatch.do")
-	public String addMatch(@ModelAttribute Match match) throws Throwable {
+	public String addMatch(@ModelAttribute Match match,String begDate,String endDate) throws Throwable {
 		log.info("addMatch args:"+match);
 		//生成赛事
 		if(match.getOpenid()==null||StringUtils.isNullOrEmpty(match.getName())){
 			return JSON.toJSONString(map("301","openid is null"));
 		}
+		if(match.getNum()==null||match.getNum()>64){
+			return JSON.toJSONString(map("302","num 最多 64支"));
+		}
 		match.setStatus("0");
 		match.setCreateTime(new Date());
 		match.setToken(WXCore.buildToken());
+		match.setBegtime(DateUtil.parseStrToDate(begDate, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
+		match.setEndtime(DateUtil.parseStrToDate(endDate, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
 		String matchId=IdUtil.genId("mt");
 		match.setMatchId(matchId);
+		match.setCreateTime(new Date());
 		matchMapper.insertSelective(match);
 		Map<String,String> map=success();
 		//生成分组和球队
 		int num=match.getNum();
 		int groupNum=match.getGroupnum();
 		String group="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		List<MatchTeam> mts=new ArrayList<MatchTeam>();
-		Map<String,List<MatchTeam>> mmt=new HashMap<String,List<MatchTeam>>();
+		final List<MatchTeam> mts=new ArrayList<MatchTeam>();
 		//生成球队
 		String teamId=IdUtil.genId("");
 		for(int i=1;i<=num;i++){
@@ -83,6 +92,7 @@ public class XcxController extends BaseController{
 			t.setTeamId(teamId+i+"t");
 			t.setOpenid(match.getOpenid());
 			t.setToken(RandomStringUtils.generateString(6));
+			t.setCreateTime(new Date());
 			teamMapper.insertSelective(t);
 			MatchTeam mt=new MatchTeam();
 			mt.setTeamId(t.getTeamId());
@@ -90,15 +100,26 @@ public class XcxController extends BaseController{
 			mt.setGroupName(group.charAt((i-1)%groupNum)+"");
 			matchTeamMapper.insertSelective(mt);
 			mts.add(mt);
-			builder(mmt, mt);
 		}
 		//生成赛程
-		for(String key:mmt.keySet()){
-			List<Game> games=shuffle(key, mmt.get(key));
-			for(Game g:games){
-				gameMapper.insertSelective(g);
+		myPool.execute(new Runnable(){
+			@Override
+			public void run() {
+				long begTime=System.currentTimeMillis();
+				log.info("buildGame :"+begTime);
+				Map<String,List<MatchTeam>> mmt=new HashMap<String,List<MatchTeam>>();
+				for(MatchTeam mt:mts){
+					builder(mmt, mt);
+				}
+				for(String key:mmt.keySet()){
+					List<Game> games=shuffle(key, mmt.get(key));
+					for(Game g:games){
+						gameMapper.insertSelective(g);
+					}
+				}
+				log.info("buildGame :"+(System.currentTimeMillis()-begTime));
 			}
-		}
+		});
 		map.put("data", JSON.toJSONString(mts));
 		return toJsonString(map);
 	}
@@ -115,6 +136,7 @@ public class XcxController extends BaseController{
 	private  List<Game> shuffle(String group,List<MatchTeam> mt) {
 		List<Game> games = new ArrayList<Game>();
 		int num=mt.size();
+		String gid=IdUtil.genId("");
 		LinkedList<Integer> list = new LinkedList<Integer>();
 		if (num % 2 == 0) {
 			for (int i = 0; i < num; i++) {
@@ -132,7 +154,7 @@ public class XcxController extends BaseController{
 				int b = list.get(list.size() - 1 - j);
 				if(a!=0&&b!=0){
 					Game g=new Game();
-					g.setGameId(IdUtil.genId("g"));
+					g.setGameId(gid+i+""+j+"g");
 					g.setAid(mt.get(a-1).getTeamId());
 					g.setBid(mt.get(b-1).getTeamId());
 					g.setMatchId(mt.get(a-1).getMatchId());
@@ -146,32 +168,48 @@ public class XcxController extends BaseController{
 		return games;
 	}
 	@RequestMapping("/buildSC.do")
+	@ResponseBody
 	//dataJson=[1|name]
 	public String buildSC(String matchId,String dataJson) throws Throwable {
 		JSONArray ja=JSON.parseArray(dataJson);
 		for(int i=0;i<ja.size();i++){
 			Team t=new Team();
 			String s=ja.getString(i);
-			String[] ss=s.split("|");
+			String[] ss=s.split("\\|");
 			t.setTeamId(ss[0]);
 			t.setName(ss[1]);
-			teamMapper.updateByPrimaryKeySelective(t);
+			int row=teamMapper.updateByTeamIdSelective(t);
+			log.info("row:"+row);
 		}
 		Game g=new Game();
 		g.setMatchId(matchId);
 		List<Game> games=gameMapper.selectByGame(g);
+		List<Team> teams=teamMapper.selectByMatchId(matchId);
+		Map<String,Team> maps=new HashMap<String,Team>();
+		for(Team t:teams){
+			maps.put(t.getTeamId(), t);
+		}
+		List<Map<String,String>> lists=new ArrayList<Map<String,String>>();
+		for(Game gg:games){
+			Map<String,String> map=new HashMap<String,String>();
+			map.put("gameId", gg.getId()+"");
+			map.put("name", gg.getName()+"");
+			map.put("gameName", maps.get(gg.getAid()).getName()+"VS"+maps.get(gg.getBid()).getName());
+			lists.add(map);
+		}
 		Map<String,String> map=success();
-		map.put("data", JSON.toJSONString(games));
+		map.put("data", JSON.toJSONString(lists));
 		return toJsonString(map);
 	}
 	@RequestMapping("/saveSC.do")
+	@ResponseBody
 	//dataJson=[1|2018-08-08 18:48:48]
 	public String saveSC(String matchId,String dataJson) throws Throwable {
 		JSONArray ja=JSON.parseArray(dataJson);
 		for(int i=0;i<ja.size();i++){
 			Game g=new Game();
 			String s=ja.getString(i);
-			String[] ss=s.split("|");
+			String[] ss=s.split("\\|");
 			g.setGameId(ss[0]);;
 			g.setGameTime(DateUtil.parseStrToDate(ss[1], DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
 			gameMapper.updateByGameIdSelective(g);
