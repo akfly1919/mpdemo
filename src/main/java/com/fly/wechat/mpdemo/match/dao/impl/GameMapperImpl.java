@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.fly.wechat.mpdemo.match.dao.BaseMapper;
 import com.fly.wechat.mpdemo.match.dao.GameMapper;
 import com.fly.wechat.mpdemo.match.model.Game;
+import com.fly.wechat.mpdemo.match.model.GameExample;
 @Repository
 public class GameMapperImpl extends BaseMapper  implements GameMapper{
 	public String name="com.fly.wechat.mpdemo.match.dao.GameMapper.";
@@ -26,7 +27,13 @@ public class GameMapperImpl extends BaseMapper  implements GameMapper{
 	@Override
 	public int insertSelective(Game record) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"insertSelective",record);
+		return sqlSessionTemplate.insert(name+"insertSelective", record);
+	}
+
+	@Override
+	public List<Game> selectByExample(GameExample example) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -48,11 +55,16 @@ public class GameMapperImpl extends BaseMapper  implements GameMapper{
 	}
 
 	@Override
-	public List<Game> selectByGame(Game record) {
+	public int updateByGameIdSelective(Game record) {
 		// TODO Auto-generated method stub
-		return (List<Game>) sqlSessionTemplate.selectList(name+"selectByGame",record);
+		return sqlSessionTemplate.update(name+"updateByGameIdSelective", record);
 	}
 
-	
+	@Override
+	public List<Game> selectByGame(Game example) {
+		// TODO Auto-generated method stub
+		return (List<Game>) sqlSessionTemplate.selectList(name+"selectByGame",example);
+	}
+
 
 }

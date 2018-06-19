@@ -8,6 +8,7 @@ import com.fly.wechat.mpdemo.match.dao.BaseMapper;
 import com.fly.wechat.mpdemo.match.dao.MatchMapper;
 import com.fly.wechat.mpdemo.match.model.Game;
 import com.fly.wechat.mpdemo.match.model.Match;
+import com.fly.wechat.mpdemo.match.model.MatchExample;
 @Repository
 public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
 	public String name="com.fly.wechat.mpdemo.match.dao.MatchMapper.";
@@ -21,13 +22,18 @@ public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
 	@Override
 	public int insert(Match record) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"insert",record);
+		return 0;
 	}
 
 	@Override
 	public int insertSelective(Match record) {
+		return sqlSessionTemplate.insert(name+"insertSelective", record);
+	}
+
+	@Override
+	public List<Match> selectByExample(MatchExample example) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"insertSelective",record);
+		return null;
 	}
 
 	@Override
@@ -39,7 +45,7 @@ public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
 	@Override
 	public int updateByPrimaryKeySelective(Match record) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"updateByPrimaryKeySelective",record);
+		return 0;
 	}
 
 	@Override
@@ -47,14 +53,5 @@ public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	@Override
-	public List<Match> selectByMatch(Match record) {
-		// TODO Auto-generated method stub
-		return (List<Match>) sqlSessionTemplate.selectList(name+"selectByMatch",record);
-	}
-
-	
-	
 
 }

@@ -8,6 +8,7 @@ import com.fly.wechat.mpdemo.match.dao.BaseMapper;
 import com.fly.wechat.mpdemo.match.dao.TeamMapper;
 import com.fly.wechat.mpdemo.match.model.Game;
 import com.fly.wechat.mpdemo.match.model.Team;
+import com.fly.wechat.mpdemo.match.model.TeamExample;
 @Repository
 public class TeamMapperImpl extends BaseMapper  implements TeamMapper{
 	public String name="com.fly.wechat.mpdemo.match.dao.TeamMapper.";
@@ -27,7 +28,13 @@ public class TeamMapperImpl extends BaseMapper  implements TeamMapper{
 	@Override
 	public int insertSelective(Team record) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"insert",record);
+		return sqlSessionTemplate.insert(name+"insertSelective", record);
+	}
+
+	@Override
+	public List<Team> selectByExample(TeamExample example) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -39,7 +46,7 @@ public class TeamMapperImpl extends BaseMapper  implements TeamMapper{
 	@Override
 	public int updateByPrimaryKeySelective(Team record) {
 		// TODO Auto-generated method stub
-		return sqlSessionTemplate.insert(name+"updateByPrimaryKeySelective",record);
+		return sqlSessionTemplate.update(name+"updateByPrimaryKeySelective", record);
 	}
 
 	@Override
@@ -49,10 +56,9 @@ public class TeamMapperImpl extends BaseMapper  implements TeamMapper{
 	}
 
 	@Override
-	public List<Team> selectByTeam(Team record) {
+	public int updateByTeamIdSelective(Team record) {
 		// TODO Auto-generated method stub
-		return null;
+		return sqlSessionTemplate.update(name+"updateByTeamIdSelective", record);
 	}
-
 
 }

@@ -3,7 +3,9 @@ package com.fly.wechat.mpdemo.api.xcx;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,13 +27,14 @@ import com.fly.wechat.mpdemo.common.DateUtil;
 import com.fly.wechat.mpdemo.common.RandomStringUtils;
 import com.fly.wechat.mpdemo.match.dao.GameMapper;
 import com.fly.wechat.mpdemo.match.dao.MatchMapper;
+import com.fly.wechat.mpdemo.match.dao.MatchTeamMapper;
 import com.fly.wechat.mpdemo.match.dao.PlayerMapper;
 import com.fly.wechat.mpdemo.match.dao.TeamMapper;
 import com.fly.wechat.mpdemo.match.model.Game;
 import com.fly.wechat.mpdemo.match.model.Match;
-import com.fly.wechat.mpdemo.match.model.Player;
+import com.fly.wechat.mpdemo.match.model.MatchTeam;
 import com.fly.wechat.mpdemo.match.model.Team;
-import com.fly.wechat.mpdemo.match.util.CommonUtils;
+import com.fly.wechat.mpdemo.match.util.IdUtil;
 import com.fly.wechat.mpdemo.match.util.WXCore;
 import com.mysql.jdbc.StringUtils;
 
@@ -44,6 +47,8 @@ public class XcxController extends BaseController{
 	@Resource
 	private MatchMapper matchMapper;
 	@Resource
+	private MatchTeamMapper matchTeamMapper;
+	@Resource
 	private TeamMapper teamMapper;
 	@Resource
 	private PlayerMapper playerMapper;
@@ -53,49 +58,92 @@ public class XcxController extends BaseController{
 	@RequestMapping("/addMatch.do")
 	public String addMatch(@ModelAttribute Match match) throws Throwable {
 		log.info("addMatch args:"+match);
+		//生成赛事
 		if(match.getOpenid()==null||StringUtils.isNullOrEmpty(match.getName())){
 			return JSON.toJSONString(map("301","openid is null"));
 		}
 		match.setStatus("0");
 		match.setCreateTime(new Date());
 		match.setToken(WXCore.buildToken());
+		String matchId=IdUtil.genId("mt");
+		match.setMatchId(matchId);
 		matchMapper.insertSelective(match);
-		Match re=new Match();
-		re.setToken(match.getToken());
-		re=matchMapper.selectByMatch(re).get(0);
 		Map<String,String> map=success();
+		//生成分组和球队
 		int num=match.getNum();
-		int groupNum=match.getGroupNum();
+		int groupNum=match.getGroupnum();
 		String group="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		int count=num/groupNum;
-		List<Team> teams=new ArrayList<Team>();
+		List<MatchTeam> mts=new ArrayList<MatchTeam>();
+		Map<String,List<MatchTeam>> mmt=new HashMap<String,List<MatchTeam>>();
 		//生成球队
+		String teamId=IdUtil.genId("");
 		for(int i=1;i<=num;i++){
 			Team t=new Team();
 			//生成id
+			t.setTeamId(teamId+i+"t");
 			t.setOpenid(match.getOpenid());
 			t.setToken(RandomStringUtils.generateString(6));
-			t.setName(group.charAt(i/count)+""+(i>count?i-count:i));
-			teams.add(t);
-			teamMapper.insert(t);
+			teamMapper.insertSelective(t);
+			MatchTeam mt=new MatchTeam();
+			mt.setTeamId(t.getTeamId());
+			mt.setMatchId(matchId);
+			mt.setGroupName(group.charAt((i-1)%groupNum)+"");
+			matchTeamMapper.insertSelective(mt);
+			mts.add(mt);
+			builder(mmt, mt);
 		}
-		for(int i=0;i<groupNum;i++){
-			String s=group.charAt(i)+"";
-			List<Game> list=null;
-			if(i==(groupNum-1)){
-				list=CommonUtils.shuffle(s, num-i*count, num);
-			}else{
-				list=CommonUtils.shuffle(s, count, num);
-			}
-			for(Game g:list){
-				g.setMatchId(re.getId());
-				g.setAid(aid);
+		//生成赛程
+		for(String key:mmt.keySet()){
+			List<Game> games=shuffle(key, mmt.get(key));
+			for(Game g:games){
 				gameMapper.insertSelective(g);
 			}
 		}
-		
-		map.put("data", JSON.toJSONString(teams));
+		map.put("data", JSON.toJSONString(mts));
 		return toJsonString(map);
+	}
+	private void builder(Map<String,List<MatchTeam>> mmt,MatchTeam mt){
+		List<MatchTeam> list=null;
+		if(mmt.containsKey(mt.getGroupName())){
+			list=mmt.get(mt.getGroupName());
+		}else{
+			list=new ArrayList<MatchTeam>();
+		}
+		list.add(mt);
+		mmt.put(mt.getGroupName(), list);
+	}
+	private  List<Game> shuffle(String group,List<MatchTeam> mt) {
+		List<Game> games = new ArrayList<Game>();
+		int num=mt.size();
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		if (num % 2 == 0) {
+			for (int i = 0; i < num; i++) {
+				list.add(i + 1);
+			}
+		} else {
+			for (int i = 0; i < num; i++) {
+				list.add(i + 1);
+			}
+			list.add(0);
+		}
+		for (int i = 1; i <= num - 1; i++) {
+			for (int j = 0; j < list.size() / 2; j++) {
+				int a = list.get(j);
+				int b = list.get(list.size() - 1 - j);
+				if(a!=0&&b!=0){
+					Game g=new Game();
+					g.setGameId(IdUtil.genId("g"));
+					g.setAid(mt.get(a-1).getTeamId());
+					g.setBid(mt.get(b-1).getTeamId());
+					g.setMatchId(mt.get(a-1).getMatchId());
+					g.setName(group+"|"+i);
+					games.add(g);
+				}
+			}
+			int temp = list.pollLast(); // 获取最后一个元素
+			list.add(1, temp);// 将最后一个元素放在List的第二个位置
+		}
+		return games;
 	}
 	@RequestMapping("/buildSC.do")
 	//dataJson=[1|name]
@@ -105,12 +153,16 @@ public class XcxController extends BaseController{
 			Team t=new Team();
 			String s=ja.getString(i);
 			String[] ss=s.split("|");
-			t.setId(Long.valueOf(ss[0]));
+			t.setTeamId(ss[0]);
 			t.setName(ss[1]);
 			teamMapper.updateByPrimaryKeySelective(t);
 		}
-		
-		return toJsonString(success());
+		Game g=new Game();
+		g.setMatchId(matchId);
+		List<Game> games=gameMapper.selectByGame(g);
+		Map<String,String> map=success();
+		map.put("data", JSON.toJSONString(games));
+		return toJsonString(map);
 	}
 	@RequestMapping("/saveSC.do")
 	//dataJson=[1|2018-08-08 18:48:48]
@@ -120,117 +172,13 @@ public class XcxController extends BaseController{
 			Game g=new Game();
 			String s=ja.getString(i);
 			String[] ss=s.split("|");
-			g.setId(Long.valueOf(ss[0]));
-			g.setGameTime(DateUtil.parseStrToDate(ss[2], DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
-			gameMapper.updateByPrimaryKeySelective(g);
+			g.setGameId(ss[0]);;
+			g.setGameTime(DateUtil.parseStrToDate(ss[1], DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
+			gameMapper.updateByGameIdSelective(g);
 		}
 		return toJsonString(success());
 	}
 	
-	@RequestMapping("/updA1.do")
-	//dataJson=[A|1|teamId]
-	public String updA1(String matchId,String dataJson) throws Throwable {
-		JSONArray ja=JSON.parseArray(dataJson);
-		for(int i=0;i<ja.size();i++){
-			Game g=new Game();
-			String s=ja.getString(i);
-			String[] ss=s.split("|");
-			g.setId(Long.valueOf(ss[0]));
-			gameMapper.updateByPrimaryKeySelective(g);
-		}
-		return toJsonString(success());
-	}
-	@RequestMapping("/updA1k.do")
-	//dataJson=[A|1|teamId]
-	public String updA1k(String matchId,String dataJson) throws Throwable {
-		JSONArray ja=JSON.parseArray(dataJson);
-		for(int i=0;i<ja.size();i++){
-			Game g=new Game();
-			String s=ja.getString(i);
-			String[] ss=s.split("|");
-			g.setId(Long.valueOf(ss[0]));
-			gameMapper.updateByPrimaryKeySelective(g);
-		}
-		return toJsonString(success());
-	}
-	@ResponseBody
-	@RequestMapping("/updMatch.do")
-	public String updMatch(@ModelAttribute Match match) throws Throwable {
-		log.info("updMatch args:"+match);
-		if(match.getId()==null||match.getOpenid()==null){
-			return JSON.toJSONString(map("301","id or openid is null"));
-		}
-		matchMapper.updateByPrimaryKeySelective(match);
-		return toJsonString(success());
-	}
-	@ResponseBody
-	@RequestMapping("/selMatch.do")
-	public String selMatch(@ModelAttribute Match match) throws Throwable {
-		log.info("selMatch args:"+match);
-		List<Match> list=matchMapper.selectByMatch(match);
-		Map<String,String> map=success();
-		map.put("data", JSON.toJSONString(list));
-		return toJsonString(map);
-	}
-	@ResponseBody
-	@RequestMapping("/addTeam.do")
-	public String addTeam(@ModelAttribute Team team) throws Throwable {
-		log.info("addTeam args:"+team);
-		if(team.getOpenid()==null||StringUtils.isNullOrEmpty(team.getName())){
-			return JSON.toJSONString(map("301","openid is null"));
-		}
-		team.setStatus("0");
-		team.setCreateTime(new Date());
-		team.setToken(WXCore.buildToken());
-		teamMapper.insertSelective(team);
-		return toJsonString(success());
-	}
-	@ResponseBody
-	@RequestMapping("/updTeam.do")
-	public String updTeam(@ModelAttribute Team team) throws Throwable {
-		log.info("updTeam args:"+team);
-		teamMapper.updateByPrimaryKey(team);
-		return toJsonString(success());
-	}
-	@ResponseBody
-	@RequestMapping("/selTeam.do")
-	public String selTeam(@ModelAttribute Team team) throws Throwable {
-		log.info("selTeam args:"+team);
-		List<Team> list=teamMapper.selectByTeam(team);
-		Map<String,String> map=success();
-		map.put("data", JSON.toJSONString(list));
-		return toJsonString(map);
-	}
-	
-	@ResponseBody
-	@RequestMapping("/addPlayer.do")
-	public String addPlayer(@ModelAttribute Player player) throws Throwable {
-		log.info("addMatch args:"+player);
-		Map<String,String> map=success();
-		return toJsonString(map);
-	}
-	
-	@ResponseBody
-	@RequestMapping("/updPlayer.do")
-	public String updPlayer(@ModelAttribute Player player) throws Throwable {
-		log.info("updPlayer args:"+player);
-		Player p=new Player();
-		p.setOpenid(player.getOpenid());
-		List<Player> players=playerMapper.selectByPlayer(p);
-		if(players!=null){
-			if(players.size()==0){
-				playerMapper.insertSelective(player);
-			}else{
-				playerMapper.updateByPrimaryKeySelective(player);
-			}
-		}
-		List<Player> retP=playerMapper.selectByPlayer(p);
-		Map<String,String> map=success();
-		if(retP!=null&&retP.size()==1){
-			map.put("data", JSON.toJSONString(retP.get(0)));
-		}
-		return toJsonString(map);
-	}
 	@ResponseBody
 	@RequestMapping("/upload.do")
 	public String upload(HttpServletRequest request) throws Throwable {

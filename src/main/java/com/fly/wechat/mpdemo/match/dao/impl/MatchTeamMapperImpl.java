@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.fly.wechat.mpdemo.match.dao.BaseMapper;
-import com.fly.wechat.mpdemo.match.dao.PlayerMapper;
-import com.fly.wechat.mpdemo.match.model.Player;
-import com.fly.wechat.mpdemo.match.model.PlayerExample;
+import com.fly.wechat.mpdemo.match.dao.MatchTeamMapper;
+import com.fly.wechat.mpdemo.match.model.MatchTeam;
+import com.fly.wechat.mpdemo.match.model.MatchTeamExample;
 @Repository
-public class PlayerMapperImpl extends BaseMapper  implements PlayerMapper{
-	public String name="com.fly.wechat.mpdemo.match.dao.PlayerMapper.";
+public class MatchTeamMapperImpl extends BaseMapper  implements MatchTeamMapper{
+	public String name="com.fly.wechat.mpdemo.match.dao.MatchTeamMapper.";
 
 	@Override
 	public int deleteByPrimaryKey(Long id) {
@@ -19,39 +19,40 @@ public class PlayerMapperImpl extends BaseMapper  implements PlayerMapper{
 	}
 
 	@Override
-	public int insert(Player record) {
+	public int insert(MatchTeam record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int insertSelective(Player record) {
+	public int insertSelective(MatchTeam record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSessionTemplate.insert(name+"insertSelective", record);
 	}
 
 	@Override
-	public List<Player> selectByExample(PlayerExample example) {
+	public List<MatchTeam> selectByExample(MatchTeamExample example) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Player selectByPrimaryKey(Long id) {
+	public MatchTeam selectByPrimaryKey(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(Player record) {
+	public int updateByPrimaryKeySelective(MatchTeam record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateByPrimaryKey(Player record) {
+	public int updateByPrimaryKey(MatchTeam record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 
 }
