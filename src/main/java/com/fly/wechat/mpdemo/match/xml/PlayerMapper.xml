@@ -153,9 +153,6 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="openid != null" >
-        openid = #{openid,jdbcType=VARCHAR},
-      </if>
       <if test="unionid != null" >
         unionid = #{unionid,jdbcType=VARCHAR},
       </if>
@@ -178,7 +175,7 @@
         picUrl = #{picurl,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where openid = #{openid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fly.wechat.mpdemo.match.model.Player" >
     update player

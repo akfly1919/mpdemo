@@ -134,4 +134,20 @@
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByTeamPlayer" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from team_player
+    where 
+    <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR} and
+      </if>
+      <if test="playerId != null" >
+        player_id = #{playerId,jdbcType=VARCHAR} and
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER} and
+      </if>
+      1=1
+  </select>
 </mapper>

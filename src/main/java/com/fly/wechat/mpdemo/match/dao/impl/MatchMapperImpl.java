@@ -45,7 +45,7 @@ public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
 	@Override
 	public int updateByPrimaryKeySelective(Match record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSessionTemplate.update(name+"updateByPrimaryKeySelective",record);
 	}
 
 	@Override

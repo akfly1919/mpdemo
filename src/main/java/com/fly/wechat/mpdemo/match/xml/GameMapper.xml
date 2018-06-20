@@ -245,4 +245,43 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="updateByGameIdSelective" parameterType="com.fly.wechat.mpdemo.match.model.Game" >
+    update game
+    <set >
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="aid != null" >
+        aid = #{aid,jdbcType=VARCHAR},
+      </if>
+      <if test="bid != null" >
+        bid = #{bid,jdbcType=VARCHAR},
+      </if>
+      <if test="ascore != null" >
+        ascore = #{ascore,jdbcType=INTEGER},
+      </if>
+      <if test="bscore != null" >
+        bscore = #{bscore,jdbcType=INTEGER},
+      </if>
+      <if test="ascoreDetail != null" >
+        ascore_detail = #{ascoreDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="bscoreDetail != null" >
+        bscore_detail = #{bscoreDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="gameDidian != null" >
+        game_didian = #{gameDidian,jdbcType=VARCHAR},
+      </if>
+      <if test="gameTime != null" >
+        game_time = #{gameTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where match_id = #{matchId,jdbcType=VARCHAR}
+  </update>
 </mapper>

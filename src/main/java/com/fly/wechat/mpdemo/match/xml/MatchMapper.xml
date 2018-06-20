@@ -213,9 +213,6 @@
       <if test="lqDesc != null" >
         lq_desc = #{lqDesc,jdbcType=VARCHAR},
       </if>
-      <if test="openid != null" >
-        openid = #{openid,jdbcType=VARCHAR},
-      </if>
       <if test="unionid != null" >
         unionid = #{unionid,jdbcType=VARCHAR},
       </if>
@@ -253,7 +250,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and openid = #{openid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fly.wechat.mpdemo.match.model.Match" >
     update lq_match
@@ -291,6 +288,9 @@
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR} and
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR} and
       </if>
       1=1
   </select>

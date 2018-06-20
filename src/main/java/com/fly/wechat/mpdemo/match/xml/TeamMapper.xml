@@ -65,20 +65,6 @@
     from team
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByTeam" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.Team" >
-    select 
-    <include refid="Base_Column_List" />
-    from team
-    where 
-    <if test="teamId != null" >
-        team_id = #{teamId,jdbcType=VARCHAR},
-    </if>
-  </select>
-  <select id="selectByMatchId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    a.team_id as team_id, a.name as name, pic_url, lq_desc, a.status as status, openId, token
-    from team a LEFT JOIN match_team b on a.team_id=b.team_id where b.match_id=#{teamId,jdbcType=VARCHAR}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from team
     where id = #{id,jdbcType=BIGINT}
@@ -157,9 +143,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.fly.wechat.mpdemo.match.model.Team" >
     update team
     <set >
-      <if test="teamId != null" >
-        team_id = #{teamId,jdbcType=VARCHAR},
-      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -182,7 +165,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and team_id = #{teamId,jdbcType=VARCHAR}
   </update>
   <update id="updateByTeamIdSelective" parameterType="com.fly.wechat.mpdemo.match.model.Team" >
     update team
@@ -223,4 +206,40 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByTeam" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.Team" >
+    select 
+    <include refid="Base_Column_List" />
+    from team
+    where 
+    <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR} and 
+    </if>
+    <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR} and
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR} and
+      </if>
+      <if test="lqDesc != null" >
+        lq_desc = #{lqDesc,jdbcType=VARCHAR} and
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR} and
+      </if>
+      <if test="openid != null" >
+        openId = #{openid,jdbcType=VARCHAR} and
+      </if>
+      <if test="token != null" >
+        token = #{token,jdbcType=VARCHAR} and
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP} and
+      </if>
+      1=1
+  </select>
+  <select id="selectByMatchId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    a.team_id as team_id, a.name as name, pic_url, lq_desc, a.status as status, openId, token
+    from team a LEFT JOIN match_team b on a.team_id=b.team_id where b.match_id=#{teamId,jdbcType=VARCHAR}
+  </select>
 </mapper>

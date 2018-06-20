@@ -276,6 +276,7 @@ public class XcxController extends BaseController{
 		g.setGameId(IdUtil.genId("g"));
 		g.setMatchId(matchId);
 		g.setAid(aId);
+		g.setCreateTime(new Date());
 		gameMapper.insertSelective(g);
 		return toJsonString(success());
 	}
@@ -284,7 +285,7 @@ public class XcxController extends BaseController{
 	public String selMatch(@ModelAttribute Match match) throws Throwable {
 		log.info("selMatch args:"+match);
 		//生成赛事
-		if(match.getOpenid()==null||StringUtils.isNullOrEmpty(match.getName())){
+		if(match.getOpenid()==null){
 			return JSON.toJSONString(map("301","openid is null"));
 		}
 		List<Match> list=matchMapper.selectByMatch(match);
@@ -297,7 +298,7 @@ public class XcxController extends BaseController{
 	@RequestMapping("/updMatch.do")
 	public String updMatch(@ModelAttribute Match match,String begDate,String endDate) throws Throwable {
 		log.info("updMatch args:"+match);
-		if(match.getOpenid()==null){
+		if(match.getOpenid()==null||match.getId()==null){
 			return JSON.toJSONString(map("301","openid is null"));
 		}
 		match.setBegtime(DateUtil.parseStrToDate(begDate, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
@@ -315,6 +316,11 @@ public class XcxController extends BaseController{
 		team.setToken(WXCore.buildToken());
 		team.setStatus("0");
 		teamMapper.insertSelective(team);
+		TeamPlayer tp=new TeamPlayer();
+		tp.setTeamId(teamId);
+		tp.setPlayerId(team.getOpenid());
+		tp.setStatus(0);
+		teamPlayerMapper.insertSelective(tp);
 		Map<String,String> map=success();
 		return toJsonString(map);
 	}
@@ -322,6 +328,9 @@ public class XcxController extends BaseController{
 	@RequestMapping("/updTeam.do")
 	public String updTeam(@ModelAttribute Team team) throws Throwable {
 		log.info("updTeam args:"+team);
+		if(team.getId()==null||team.getOpenid()==null){
+			return JSON.toJSONString(map("301","id is null"));
+		}
 		teamMapper.updateByPrimaryKeySelective(team);
 		Map<String,String> map=success();
 		return toJsonString(map);
@@ -371,7 +380,7 @@ public class XcxController extends BaseController{
 	
 	@ResponseBody
 	@RequestMapping("/istTeam.do")
-	public String istTeam(String token,String openId) throws Throwable {
+	public String istTeam(String token,String openid) throws Throwable {
 		Team team=new Team();
 		team.setToken(token);
 		log.info("istTeam args:"+team);
@@ -380,12 +389,56 @@ public class XcxController extends BaseController{
 			Team t=list.get(0);
 			TeamPlayer tp=new TeamPlayer();
 			tp.setTeamId(t.getTeamId());
-			tp.setPlayerId(openId);
+			tp.setPlayerId(openid);
 			tp.setStatus(0);
 			teamPlayerMapper.insertSelective(tp);
+		}else{
+			return JSON.toJSONString(map("302","token 无效"));
+		}
+		Map<String,String> map=success();
+//		map.put("data", JSON.toJSONString(list));
+		return toJsonString(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/istMatch.do")
+	public String istMatch(String token,String openid,String teamId) throws Throwable {
+		Match match=new Match();
+		match.setToken(token);
+		log.info("istMatch args:"+token+"|"+openid+"|"+teamId);
+		List<Match> list=matchMapper.selectByMatch(match);
+		if(list!=null&&list.size()==1){
+			Match m=list.get(0);
+			Game g=new Game();
+			g.setMatchId(m.getMatchId());
+			g.setBid(teamId);
+			int i=gameMapper.updateByGameIdSelective(g);
+			if(i!=1){
+				return JSON.toJSONString(map("302","token 无效"));
+			}
+		}else{
+			return JSON.toJSONString(map("302","token 无效"));
 		}
 		Map<String,String> map=success();
 		map.put("data", JSON.toJSONString(list));
 		return toJsonString(map);
 	}
+	
+	@ResponseBody
+	@RequestMapping("/selPlayer.do")
+	public String selPlayer(String openid) throws Throwable {
+		Player p=playerMapper.selectByOpenId(openid);
+		Map<String,String> map=success();
+		map.put("data", JSON.toJSONString(p));
+		return toJsonString(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updPlayer.do")
+	public String updPlayer(@ModelAttribute Player player) throws Throwable {
+		playerMapper.updateByPrimaryKeySelective(player);
+		Map<String,String> map=success();
+		return toJsonString(map);
+	}
+	
 }

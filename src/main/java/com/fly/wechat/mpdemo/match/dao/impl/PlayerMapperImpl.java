@@ -45,7 +45,7 @@ public class PlayerMapperImpl extends BaseMapper  implements PlayerMapper{
 	@Override
 	public int updateByPrimaryKeySelective(Player record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSessionTemplate.update(name+"updateByPrimaryKeySelective", record);
 	}
 
 	@Override

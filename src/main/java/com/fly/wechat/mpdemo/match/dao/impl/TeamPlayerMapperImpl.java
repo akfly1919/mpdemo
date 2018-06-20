@@ -57,7 +57,7 @@ public class TeamPlayerMapperImpl extends BaseMapper  implements TeamPlayerMappe
 	@Override
 	public List<TeamPlayer> selectByTeamPlayer(TeamPlayer record) {
 		// TODO Auto-generated method stub
-		return (List<TeamPlayer>) sqlSessionTemplate.selectList(name+"record",record);
+		return (List<TeamPlayer>) sqlSessionTemplate.selectList(name+"selectByTeamPlayer",record);
 	}
 
 	
