@@ -339,6 +339,7 @@ public class XcxController extends BaseController{
 	@RequestMapping("/selTeam.do")
 	public String selTeam(@ModelAttribute Team team) throws Throwable {
 		log.info("selTeam args:"+team);
+		team.setStatus("0");
 		List<Team> list=teamMapper.selectByTeam(team);
 		Map<String,String> map=success();
 		map.put("data", JSON.toJSONString(list));
@@ -416,6 +417,10 @@ public class XcxController extends BaseController{
 			if(i!=1){
 				return JSON.toJSONString(map("302","token 无效"));
 			}
+			Match record=new Match();
+			record.setId(m.getId());
+			record.setStatus("1");
+			matchMapper.updateByPrimaryKeySelective(record);
 		}else{
 			return JSON.toJSONString(map("302","token 无效"));
 		}
@@ -436,7 +441,7 @@ public class XcxController extends BaseController{
 	@ResponseBody
 	@RequestMapping("/updPlayer.do")
 	public String updPlayer(@ModelAttribute Player player) throws Throwable {
-		playerMapper.updateByPrimaryKeySelective(player);
+		playerMapper.updateByPlayerSelective(player);
 		Map<String,String> map=success();
 		return toJsonString(map);
 	}

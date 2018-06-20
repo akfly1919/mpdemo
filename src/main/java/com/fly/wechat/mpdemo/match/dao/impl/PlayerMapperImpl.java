@@ -60,4 +60,10 @@ public class PlayerMapperImpl extends BaseMapper  implements PlayerMapper{
 		return (Player) sqlSessionTemplate.selectOne(name+"selectByOpenId", openid);
 	}
 
+	@Override
+	public int updateByPlayerSelective(Player record) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.update(name+"updateByPlayerSelective", record);
+	}
+
 }

@@ -18,6 +18,8 @@ public interface PlayerMapper {
     Player selectByOpenId(String openid);
 
     int updateByPrimaryKeySelective(Player record);
-
+    
+    int updateByPlayerSelective(Player record);
+    
     int updateByPrimaryKey(Player record);
 }
