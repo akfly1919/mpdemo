@@ -27,7 +27,7 @@ public class PlayerMapperImpl extends BaseMapper  implements PlayerMapper{
 	@Override
 	public int insertSelective(Player record) {
 		// TODO Auto-generated method stub
-		return 0;
+		return sqlSessionTemplate.insert(name+"insertSelective",record);
 	}
 
 	@Override
@@ -52,6 +52,12 @@ public class PlayerMapperImpl extends BaseMapper  implements PlayerMapper{
 	public int updateByPrimaryKey(Player record) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public Player selectByOpenId(String openid) {
+		// TODO Auto-generated method stub
+		return (Player) sqlSessionTemplate.selectOne(name+"selectByOpenId", openid);
 	}
 
 }

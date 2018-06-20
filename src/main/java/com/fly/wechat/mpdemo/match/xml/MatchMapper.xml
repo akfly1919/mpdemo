@@ -9,6 +9,9 @@
     <result column="openid" property="openid" jdbcType="VARCHAR" />
     <result column="unionid" property="unionid" jdbcType="VARCHAR" />
     <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="lq_type" property="lqType" jdbcType="TINYINT" />
+    <result column="loc" property="loc" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="groupNum" property="groupnum" jdbcType="INTEGER" />
@@ -47,8 +50,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, match_id, name, lq_desc, openid, unionid, token, status, num, groupNum, picUrl, 
-    begTime, endTime, create_time
+    id, match_id, name, lq_desc, openid, unionid, token, lq_type, loc, phone, status, 
+    num, groupNum, picUrl, begTime, endTime, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.MatchExample" >
     select
@@ -78,12 +81,14 @@
   <insert id="insert" parameterType="com.fly.wechat.mpdemo.match.model.Match" >
     insert into lq_match (id, match_id, name, 
       lq_desc, openid, unionid, 
-      token, status, num, 
+      token, lq_type, loc, 
+      phone, status, num, 
       groupNum, picUrl, begTime, 
       endTime, create_time)
     values (#{id,jdbcType=BIGINT}, #{matchId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{lqDesc,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, 
-      #{token,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
+      #{token,jdbcType=VARCHAR}, #{lqType,jdbcType=TINYINT}, #{loc,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
       #{groupnum,jdbcType=INTEGER}, #{picurl,jdbcType=VARCHAR}, #{begtime,jdbcType=TIMESTAMP}, 
       #{endtime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
@@ -110,6 +115,15 @@
       </if>
       <if test="token != null" >
         token,
+      </if>
+      <if test="lqType != null" >
+        lq_type,
+      </if>
+      <if test="loc != null" >
+        loc,
+      </if>
+      <if test="phone != null" >
+        phone,
       </if>
       <if test="status != null" >
         status,
@@ -155,6 +169,15 @@
       <if test="token != null" >
         #{token,jdbcType=VARCHAR},
       </if>
+      <if test="lqType != null" >
+        #{lqType,jdbcType=TINYINT},
+      </if>
+      <if test="loc != null" >
+        #{loc,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
@@ -199,6 +222,15 @@
       <if test="token != null" >
         token = #{token,jdbcType=VARCHAR},
       </if>
+      <if test="lqType != null" >
+        lq_type = #{lqType,jdbcType=TINYINT},
+      </if>
+      <if test="loc != null" >
+        loc = #{loc,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=VARCHAR},
       </if>
@@ -231,6 +263,9 @@
       openid = #{openid,jdbcType=VARCHAR},
       unionid = #{unionid,jdbcType=VARCHAR},
       token = #{token,jdbcType=VARCHAR},
+      lq_type = #{lqType,jdbcType=TINYINT},
+      loc = #{loc,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
       groupNum = #{groupnum,jdbcType=INTEGER},
@@ -240,4 +275,23 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByMatch" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.Match" >
+    select 
+    <include refid="Base_Column_List" />
+    from lq_match
+    where 
+      <if test="matchId != null" >
+        match_id = #{matchId,jdbcType=VARCHAR} and
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR} and
+      </if>
+      <if test="lqType != null" >
+        lq_type = #{lqType,jdbcType=TINYINT} and
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR} and
+      </if>
+      1=1
+  </select>
 </mapper>

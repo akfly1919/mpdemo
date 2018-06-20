@@ -585,6 +585,206 @@ public class MatchExample {
             return (Criteria) this;
         }
 
+        public Criteria andLqTypeIsNull() {
+            addCriterion("lq_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeIsNotNull() {
+            addCriterion("lq_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeEqualTo(Byte value) {
+            addCriterion("lq_type =", value, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeNotEqualTo(Byte value) {
+            addCriterion("lq_type <>", value, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeGreaterThan(Byte value) {
+            addCriterion("lq_type >", value, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("lq_type >=", value, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeLessThan(Byte value) {
+            addCriterion("lq_type <", value, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("lq_type <=", value, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeIn(List<Byte> values) {
+            addCriterion("lq_type in", values, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeNotIn(List<Byte> values) {
+            addCriterion("lq_type not in", values, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeBetween(Byte value1, Byte value2) {
+            addCriterion("lq_type between", value1, value2, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLqTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("lq_type not between", value1, value2, "lqType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocIsNull() {
+            addCriterion("loc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocIsNotNull() {
+            addCriterion("loc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocEqualTo(String value) {
+            addCriterion("loc =", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocNotEqualTo(String value) {
+            addCriterion("loc <>", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocGreaterThan(String value) {
+            addCriterion("loc >", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocGreaterThanOrEqualTo(String value) {
+            addCriterion("loc >=", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocLessThan(String value) {
+            addCriterion("loc <", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocLessThanOrEqualTo(String value) {
+            addCriterion("loc <=", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocLike(String value) {
+            addCriterion("loc like", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocNotLike(String value) {
+            addCriterion("loc not like", value, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocIn(List<String> values) {
+            addCriterion("loc in", values, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocNotIn(List<String> values) {
+            addCriterion("loc not in", values, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocBetween(String value1, String value2) {
+            addCriterion("loc between", value1, value2, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andLocNotBetween(String value1, String value2) {
+            addCriterion("loc not between", value1, value2, "loc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIsNull() {
+            addCriterion("phone is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIsNotNull() {
+            addCriterion("phone is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneEqualTo(String value) {
+            addCriterion("phone =", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotEqualTo(String value) {
+            addCriterion("phone <>", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneGreaterThan(String value) {
+            addCriterion("phone >", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneGreaterThanOrEqualTo(String value) {
+            addCriterion("phone >=", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLessThan(String value) {
+            addCriterion("phone <", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLessThanOrEqualTo(String value) {
+            addCriterion("phone <=", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneLike(String value) {
+            addCriterion("phone like", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotLike(String value) {
+            addCriterion("phone not like", value, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneIn(List<String> values) {
+            addCriterion("phone in", values, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotIn(List<String> values) {
+            addCriterion("phone not in", values, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneBetween(String value1, String value2) {
+            addCriterion("phone between", value1, value2, "phone");
+            return (Criteria) this;
+        }
+
+        public Criteria andPhoneNotBetween(String value1, String value2) {
+            addCriterion("phone not between", value1, value2, "phone");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("status is null");
             return (Criteria) this;

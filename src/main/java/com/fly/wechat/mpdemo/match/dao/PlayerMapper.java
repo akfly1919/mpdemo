@@ -14,6 +14,8 @@ public interface PlayerMapper {
     List<Player> selectByExample(PlayerExample example);
 
     Player selectByPrimaryKey(Long id);
+    
+    Player selectByOpenId(String openid);
 
     int updateByPrimaryKeySelective(Player record);
 

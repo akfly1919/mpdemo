@@ -3,9 +3,9 @@ package com.fly.wechat.mpdemo.match.model;
 public class TeamPlayer {
     private Long id;
 
-    private Long teamId;
+    private String teamId;
 
-    private Long playerId;
+    private String playerId;
 
     private String num;
 
@@ -19,19 +19,19 @@ public class TeamPlayer {
         this.id = id;
     }
 
-    public Long getTeamId() {
+    public String getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(Long teamId) {
+    public void setTeamId(String teamId) {
         this.teamId = teamId;
     }
 
-    public Long getPlayerId() {
+    public String getPlayerId() {
         return playerId;
     }
 
-    public void setPlayerId(Long playerId) {
+    public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
 

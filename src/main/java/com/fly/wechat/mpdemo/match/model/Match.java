@@ -17,6 +17,12 @@ public class Match {
 
     private String token;
 
+    private Byte lqType;
+
+    private String loc;
+
+    private String phone;
+
     private String status;
 
     private Integer num;
@@ -85,6 +91,30 @@ public class Match {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Byte getLqType() {
+        return lqType;
+    }
+
+    public void setLqType(Byte lqType) {
+        this.lqType = lqType;
+    }
+
+    public String getLoc() {
+        return loc;
+    }
+
+    public void setLoc(String loc) {
+        this.loc = loc;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getStatus() {

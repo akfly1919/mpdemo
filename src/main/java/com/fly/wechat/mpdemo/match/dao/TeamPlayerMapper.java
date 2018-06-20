@@ -12,6 +12,8 @@ public interface TeamPlayerMapper {
     int insertSelective(TeamPlayer record);
 
     List<TeamPlayer> selectByExample(TeamPlayerExample example);
+    
+    List<TeamPlayer> selectByTeamPlayer(TeamPlayer record);
 
     TeamPlayer selectByPrimaryKey(Long id);
 

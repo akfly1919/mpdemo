@@ -54,4 +54,10 @@ public class MatchMapperImpl extends BaseMapper  implements MatchMapper{
 		return 0;
 	}
 
+	@Override
+	public List<Match> selectByMatch(Match record) {
+		// TODO Auto-generated method stub
+		return (List<Match>) this.sqlSessionTemplate.selectList(name+"selectByMatch",record);
+	}
+
 }

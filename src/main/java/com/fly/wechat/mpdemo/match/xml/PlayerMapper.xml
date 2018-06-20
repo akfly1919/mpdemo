@@ -11,6 +11,7 @@
     <result column="weight" property="weight" jdbcType="INTEGER" />
     <result column="pos" property="pos" jdbcType="VARCHAR" />
     <result column="lq_desc" property="lqDesc" jdbcType="VARCHAR" />
+    <result column="picUrl" property="picurl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -42,7 +43,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, openid, unionid, bri, height, weight, pos, lq_desc
+    id, name, openid, unionid, bri, height, weight, pos, lq_desc, picUrl
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.PlayerExample" >
     select
@@ -72,12 +73,12 @@
   <insert id="insert" parameterType="com.fly.wechat.mpdemo.match.model.Player" >
     insert into player (id, name, openid, 
       unionid, bri, height, 
-      weight, pos, lq_desc
-      )
+      weight, pos, lq_desc, 
+      picUrl)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
       #{unionid,jdbcType=VARCHAR}, #{bri,jdbcType=TIMESTAMP}, #{height,jdbcType=INTEGER}, 
-      #{weight,jdbcType=INTEGER}, #{pos,jdbcType=VARCHAR}, #{lqDesc,jdbcType=VARCHAR}
-      )
+      #{weight,jdbcType=INTEGER}, #{pos,jdbcType=VARCHAR}, #{lqDesc,jdbcType=VARCHAR}, 
+      #{picurl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.fly.wechat.mpdemo.match.model.Player" >
     insert into player
@@ -109,6 +110,9 @@
       <if test="lqDesc != null" >
         lq_desc,
       </if>
+      <if test="picurl != null" >
+        picUrl,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -137,6 +141,9 @@
       </if>
       <if test="lqDesc != null" >
         #{lqDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="picurl != null" >
+        #{picurl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -167,6 +174,9 @@
       <if test="lqDesc != null" >
         lq_desc = #{lqDesc,jdbcType=VARCHAR},
       </if>
+      <if test="picurl != null" >
+        picUrl = #{picurl,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -179,7 +189,14 @@
       height = #{height,jdbcType=INTEGER},
       weight = #{weight,jdbcType=INTEGER},
       pos = #{pos,jdbcType=VARCHAR},
-      lq_desc = #{lqDesc,jdbcType=VARCHAR}
+      lq_desc = #{lqDesc,jdbcType=VARCHAR},
+      picUrl = #{picurl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from player
+    where openid = #{openid,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -12,6 +12,8 @@ public interface MatchMapper {
     int insertSelective(Match record);
 
     List<Match> selectByExample(MatchExample example);
+    
+    List<Match> selectByMatch(Match record);
 
     Match selectByPrimaryKey(Long id);
 

@@ -21,6 +21,8 @@ public class Player {
 
     private String lqDesc;
 
+    private String picurl;
+
     public Long getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class Player {
 
     public void setLqDesc(String lqDesc) {
         this.lqDesc = lqDesc;
+    }
+
+    public String getPicurl() {
+        return picurl;
+    }
+
+    public void setPicurl(String picurl) {
+        this.picurl = picurl;
     }
 }

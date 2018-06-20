@@ -3,8 +3,8 @@
 <mapper namespace="com.fly.wechat.mpdemo.match.dao.TeamPlayerMapper" >
   <resultMap id="BaseResultMap" type="com.fly.wechat.mpdemo.match.model.TeamPlayer" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="team_id" property="teamId" jdbcType="BIGINT" />
-    <result column="player_id" property="playerId" jdbcType="BIGINT" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="player_id" property="playerId" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
@@ -68,7 +68,7 @@
   <insert id="insert" parameterType="com.fly.wechat.mpdemo.match.model.TeamPlayer" >
     insert into team_player (id, team_id, player_id, 
       num, status)
-    values (#{id,jdbcType=BIGINT}, #{teamId,jdbcType=BIGINT}, #{playerId,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=BIGINT}, #{teamId,jdbcType=VARCHAR}, #{playerId,jdbcType=VARCHAR}, 
       #{num,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.fly.wechat.mpdemo.match.model.TeamPlayer" >
@@ -95,10 +95,10 @@
         #{id,jdbcType=BIGINT},
       </if>
       <if test="teamId != null" >
-        #{teamId,jdbcType=BIGINT},
+        #{teamId,jdbcType=VARCHAR},
       </if>
       <if test="playerId != null" >
-        #{playerId,jdbcType=BIGINT},
+        #{playerId,jdbcType=VARCHAR},
       </if>
       <if test="num != null" >
         #{num,jdbcType=VARCHAR},
@@ -112,10 +112,10 @@
     update team_player
     <set >
       <if test="teamId != null" >
-        team_id = #{teamId,jdbcType=BIGINT},
+        team_id = #{teamId,jdbcType=VARCHAR},
       </if>
       <if test="playerId != null" >
-        player_id = #{playerId,jdbcType=BIGINT},
+        player_id = #{playerId,jdbcType=VARCHAR},
       </if>
       <if test="num != null" >
         num = #{num,jdbcType=VARCHAR},
@@ -128,8 +128,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fly.wechat.mpdemo.match.model.TeamPlayer" >
     update team_player
-    set team_id = #{teamId,jdbcType=BIGINT},
-      player_id = #{playerId,jdbcType=BIGINT},
+    set team_id = #{teamId,jdbcType=VARCHAR},
+      player_id = #{playerId,jdbcType=VARCHAR},
       num = #{num,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
