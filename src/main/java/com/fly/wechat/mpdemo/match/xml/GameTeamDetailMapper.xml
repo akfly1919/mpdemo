@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fly.wechat.mpdemo.match.dao.GameTeamDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.fly.wechat.mpdemo.match.model.GameTeamDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="game_id" property="gameId" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="jieci" property="jieci" jdbcType="TINYINT" />
+    <result column="pts" property="pts" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, game_id, team_id, jieci, pts
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.GameTeamDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from game_team_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_team_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from game_team_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.fly.wechat.mpdemo.match.model.GameTeamDetail" >
+    insert into game_team_detail (id, game_id, team_id, 
+      jieci, pts)
+    values (#{id,jdbcType=BIGINT}, #{gameId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, 
+      #{jieci,jdbcType=TINYINT}, #{pts,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fly.wechat.mpdemo.match.model.GameTeamDetail" >
+    insert into game_team_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="gameId != null" >
+        game_id,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+      <if test="jieci != null" >
+        jieci,
+      </if>
+      <if test="pts != null" >
+        pts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gameId != null" >
+        #{gameId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="jieci != null" >
+        #{jieci,jdbcType=TINYINT},
+      </if>
+      <if test="pts != null" >
+        #{pts,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fly.wechat.mpdemo.match.model.GameTeamDetail" >
+    update game_team_detail
+    <set >
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="jieci != null" >
+        jieci = #{jieci,jdbcType=TINYINT},
+      </if>
+      <if test="pts != null" >
+        pts = #{pts,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fly.wechat.mpdemo.match.model.GameTeamDetail" >
+    update game_team_detail
+    set game_id = #{gameId,jdbcType=VARCHAR},
+      team_id = #{teamId,jdbcType=VARCHAR},
+      jieci = #{jieci,jdbcType=TINYINT},
+      pts = #{pts,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

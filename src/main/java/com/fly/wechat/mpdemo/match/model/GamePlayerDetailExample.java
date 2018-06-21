@@ -175,52 +175,62 @@ public class GamePlayerDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andGameIdEqualTo(Long value) {
+        public Criteria andGameIdEqualTo(String value) {
             addCriterion("game_id =", value, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdNotEqualTo(Long value) {
+        public Criteria andGameIdNotEqualTo(String value) {
             addCriterion("game_id <>", value, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdGreaterThan(Long value) {
+        public Criteria andGameIdGreaterThan(String value) {
             addCriterion("game_id >", value, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andGameIdGreaterThanOrEqualTo(String value) {
             addCriterion("game_id >=", value, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdLessThan(Long value) {
+        public Criteria andGameIdLessThan(String value) {
             addCriterion("game_id <", value, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdLessThanOrEqualTo(Long value) {
+        public Criteria andGameIdLessThanOrEqualTo(String value) {
             addCriterion("game_id <=", value, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdIn(List<Long> values) {
+        public Criteria andGameIdLike(String value) {
+            addCriterion("game_id like", value, "gameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGameIdNotLike(String value) {
+            addCriterion("game_id not like", value, "gameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGameIdIn(List<String> values) {
             addCriterion("game_id in", values, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdNotIn(List<Long> values) {
+        public Criteria andGameIdNotIn(List<String> values) {
             addCriterion("game_id not in", values, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdBetween(Long value1, Long value2) {
+        public Criteria andGameIdBetween(String value1, String value2) {
             addCriterion("game_id between", value1, value2, "gameId");
             return (Criteria) this;
         }
 
-        public Criteria andGameIdNotBetween(Long value1, Long value2) {
+        public Criteria andGameIdNotBetween(String value1, String value2) {
             addCriterion("game_id not between", value1, value2, "gameId");
             return (Criteria) this;
         }
@@ -235,52 +245,62 @@ public class GamePlayerDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdEqualTo(Long value) {
+        public Criteria andTeamIdEqualTo(String value) {
             addCriterion("team_id =", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdNotEqualTo(Long value) {
+        public Criteria andTeamIdNotEqualTo(String value) {
             addCriterion("team_id <>", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdGreaterThan(Long value) {
+        public Criteria andTeamIdGreaterThan(String value) {
             addCriterion("team_id >", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andTeamIdGreaterThanOrEqualTo(String value) {
             addCriterion("team_id >=", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdLessThan(Long value) {
+        public Criteria andTeamIdLessThan(String value) {
             addCriterion("team_id <", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdLessThanOrEqualTo(Long value) {
+        public Criteria andTeamIdLessThanOrEqualTo(String value) {
             addCriterion("team_id <=", value, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdIn(List<Long> values) {
+        public Criteria andTeamIdLike(String value) {
+            addCriterion("team_id like", value, "teamId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamIdNotLike(String value) {
+            addCriterion("team_id not like", value, "teamId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeamIdIn(List<String> values) {
             addCriterion("team_id in", values, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdNotIn(List<Long> values) {
+        public Criteria andTeamIdNotIn(List<String> values) {
             addCriterion("team_id not in", values, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdBetween(Long value1, Long value2) {
+        public Criteria andTeamIdBetween(String value1, String value2) {
             addCriterion("team_id between", value1, value2, "teamId");
             return (Criteria) this;
         }
 
-        public Criteria andTeamIdNotBetween(Long value1, Long value2) {
+        public Criteria andTeamIdNotBetween(String value1, String value2) {
             addCriterion("team_id not between", value1, value2, "teamId");
             return (Criteria) this;
         }
@@ -295,52 +315,62 @@ public class GamePlayerDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdEqualTo(Long value) {
+        public Criteria andPlayerIdEqualTo(String value) {
             addCriterion("player_id =", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdNotEqualTo(Long value) {
+        public Criteria andPlayerIdNotEqualTo(String value) {
             addCriterion("player_id <>", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdGreaterThan(Long value) {
+        public Criteria andPlayerIdGreaterThan(String value) {
             addCriterion("player_id >", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andPlayerIdGreaterThanOrEqualTo(String value) {
             addCriterion("player_id >=", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdLessThan(Long value) {
+        public Criteria andPlayerIdLessThan(String value) {
             addCriterion("player_id <", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdLessThanOrEqualTo(Long value) {
+        public Criteria andPlayerIdLessThanOrEqualTo(String value) {
             addCriterion("player_id <=", value, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdIn(List<Long> values) {
+        public Criteria andPlayerIdLike(String value) {
+            addCriterion("player_id like", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdNotLike(String value) {
+            addCriterion("player_id not like", value, "playerId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayerIdIn(List<String> values) {
             addCriterion("player_id in", values, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdNotIn(List<Long> values) {
+        public Criteria andPlayerIdNotIn(List<String> values) {
             addCriterion("player_id not in", values, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdBetween(Long value1, Long value2) {
+        public Criteria andPlayerIdBetween(String value1, String value2) {
             addCriterion("player_id between", value1, value2, "playerId");
             return (Criteria) this;
         }
 
-        public Criteria andPlayerIdNotBetween(Long value1, Long value2) {
+        public Criteria andPlayerIdNotBetween(String value1, String value2) {
             addCriterion("player_id not between", value1, value2, "playerId");
             return (Criteria) this;
         }

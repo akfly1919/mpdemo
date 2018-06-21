@@ -18,6 +18,7 @@
 	<typeAliases>
 	    <typeAlias alias="Game" type="com.fly.wechat.mpdemo.match.model.Game"/>
 	    <typeAlias alias="GamePlayerDetail" type="com.fly.wechat.mpdemo.match.model.GamePlayerDetail"/>
+	    <typeAlias alias="GameTeamDetail" type="com.fly.wechat.mpdemo.match.model.GameTeamDetail"/>
 	    <typeAlias alias="Match" type="com.fly.wechat.mpdemo.match.model.Match"/>
 	    <typeAlias alias="MatchTeam" type="com.fly.wechat.mpdemo.match.model.MatchTeam"/>
 	    <typeAlias alias="Player" type="com.fly.wechat.mpdemo.match.model.Player"/>
@@ -28,6 +29,7 @@
 	<mappers>
 		<mapper resource="com/fly/wechat/mpdemo/match/xml/GameMapper.xml"/>
 		<mapper resource="com/fly/wechat/mpdemo/match/xml/GamePlayerDetailMapper.xml"/>
+		<mapper resource="com/fly/wechat/mpdemo/match/xml/GameTeamDetailMapper.xml"/>
 		<mapper resource="com/fly/wechat/mpdemo/match/xml/MatchMapper.xml"/>
 		<mapper resource="com/fly/wechat/mpdemo/match/xml/MatchTeamMapper.xml"/>
 		<mapper resource="com/fly/wechat/mpdemo/match/xml/PlayerMapper.xml"/>

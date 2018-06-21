@@ -5,11 +5,11 @@ import java.util.Date;
 public class GamePlayerDetail {
     private Long id;
 
-    private Long gameId;
+    private String gameId;
 
-    private Long teamId;
+    private String teamId;
 
-    private Long playerId;
+    private String playerId;
 
     private Byte sf;
 
@@ -57,27 +57,27 @@ public class GamePlayerDetail {
         this.id = id;
     }
 
-    public Long getGameId() {
+    public String getGameId() {
         return gameId;
     }
 
-    public void setGameId(Long gameId) {
+    public void setGameId(String gameId) {
         this.gameId = gameId;
     }
 
-    public Long getTeamId() {
+    public String getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(Long teamId) {
+    public void setTeamId(String teamId) {
         this.teamId = teamId;
     }
 
-    public Long getPlayerId() {
+    public String getPlayerId() {
         return playerId;
     }
 
-    public void setPlayerId(Long playerId) {
+    public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
 

@@ -3,9 +3,9 @@
 <mapper namespace="com.fly.wechat.mpdemo.match.dao.GamePlayerDetailMapper" >
   <resultMap id="BaseResultMap" type="com.fly.wechat.mpdemo.match.model.GamePlayerDetail" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="game_id" property="gameId" jdbcType="BIGINT" />
-    <result column="team_id" property="teamId" jdbcType="BIGINT" />
-    <result column="player_id" property="playerId" jdbcType="BIGINT" />
+    <result column="game_id" property="gameId" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="player_id" property="playerId" jdbcType="VARCHAR" />
     <result column="sf" property="sf" jdbcType="TINYINT" />
     <result column="num" property="num" jdbcType="TINYINT" />
     <result column="min" property="min" jdbcType="TINYINT" />
@@ -86,19 +86,19 @@
   </delete>
   <insert id="insert" parameterType="com.fly.wechat.mpdemo.match.model.GamePlayerDetail" >
     insert into game_player_detail (id, game_id, team_id, 
-      player_id, sf, num, min, 
-      fg, fgt, pt3, pt3t, 
-      ft, ftt, oreb, dreb, 
-      reb, ast, stl, blk, 
-      to, pf, pts, create_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{gameId,jdbcType=BIGINT}, #{teamId,jdbcType=BIGINT}, 
-      #{playerId,jdbcType=BIGINT}, #{sf,jdbcType=TINYINT}, #{num,jdbcType=TINYINT}, #{min,jdbcType=TINYINT}, 
-      #{fg,jdbcType=TINYINT}, #{fgt,jdbcType=TINYINT}, #{pt3,jdbcType=TINYINT}, #{pt3t,jdbcType=TINYINT}, 
-      #{ft,jdbcType=TINYINT}, #{ftt,jdbcType=TINYINT}, #{oreb,jdbcType=TINYINT}, #{dreb,jdbcType=TINYINT}, 
-      #{reb,jdbcType=TINYINT}, #{ast,jdbcType=TINYINT}, #{stl,jdbcType=TINYINT}, #{blk,jdbcType=TINYINT}, 
-      #{to,jdbcType=TINYINT}, #{pf,jdbcType=TINYINT}, #{pts,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      player_id, sf, num, 
+      min, fg, fgt, pt3, 
+      pt3t, ft, ftt, oreb, 
+      dreb, reb, ast, stl, 
+      blk, to, pf, pts, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{gameId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, 
+      #{playerId,jdbcType=VARCHAR}, #{sf,jdbcType=TINYINT}, #{num,jdbcType=TINYINT}, 
+      #{min,jdbcType=TINYINT}, #{fg,jdbcType=TINYINT}, #{fgt,jdbcType=TINYINT}, #{pt3,jdbcType=TINYINT}, 
+      #{pt3t,jdbcType=TINYINT}, #{ft,jdbcType=TINYINT}, #{ftt,jdbcType=TINYINT}, #{oreb,jdbcType=TINYINT}, 
+      #{dreb,jdbcType=TINYINT}, #{reb,jdbcType=TINYINT}, #{ast,jdbcType=TINYINT}, #{stl,jdbcType=TINYINT}, 
+      #{blk,jdbcType=TINYINT}, #{to,jdbcType=TINYINT}, #{pf,jdbcType=TINYINT}, #{pts,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.fly.wechat.mpdemo.match.model.GamePlayerDetail" >
     insert into game_player_detail
@@ -178,13 +178,13 @@
         #{id,jdbcType=BIGINT},
       </if>
       <if test="gameId != null" >
-        #{gameId,jdbcType=BIGINT},
+        #{gameId,jdbcType=VARCHAR},
       </if>
       <if test="teamId != null" >
-        #{teamId,jdbcType=BIGINT},
+        #{teamId,jdbcType=VARCHAR},
       </if>
       <if test="playerId != null" >
-        #{playerId,jdbcType=BIGINT},
+        #{playerId,jdbcType=VARCHAR},
       </if>
       <if test="sf != null" >
         #{sf,jdbcType=TINYINT},
@@ -249,13 +249,13 @@
     update game_player_detail
     <set >
       <if test="gameId != null" >
-        game_id = #{gameId,jdbcType=BIGINT},
+        game_id = #{gameId,jdbcType=VARCHAR},
       </if>
       <if test="teamId != null" >
-        team_id = #{teamId,jdbcType=BIGINT},
+        team_id = #{teamId,jdbcType=VARCHAR},
       </if>
       <if test="playerId != null" >
-        player_id = #{playerId,jdbcType=BIGINT},
+        player_id = #{playerId,jdbcType=VARCHAR},
       </if>
       <if test="sf != null" >
         sf = #{sf,jdbcType=TINYINT},
@@ -319,9 +319,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fly.wechat.mpdemo.match.model.GamePlayerDetail" >
     update game_player_detail
-    set game_id = #{gameId,jdbcType=BIGINT},
-      team_id = #{teamId,jdbcType=BIGINT},
-      player_id = #{playerId,jdbcType=BIGINT},
+    set game_id = #{gameId,jdbcType=VARCHAR},
+      team_id = #{teamId,jdbcType=VARCHAR},
+      player_id = #{playerId,jdbcType=VARCHAR},
       sf = #{sf,jdbcType=TINYINT},
       num = #{num,jdbcType=TINYINT},
       min = #{min,jdbcType=TINYINT},

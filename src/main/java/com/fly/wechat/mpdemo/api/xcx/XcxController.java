@@ -28,12 +28,15 @@ import com.fly.wechat.mpdemo.api.BaseController;
 import com.fly.wechat.mpdemo.common.DateUtil;
 import com.fly.wechat.mpdemo.common.RandomStringUtils;
 import com.fly.wechat.mpdemo.match.dao.GameMapper;
+import com.fly.wechat.mpdemo.match.dao.GamePlayerDetailMapper;
+import com.fly.wechat.mpdemo.match.dao.GameTeamDetailMapper;
 import com.fly.wechat.mpdemo.match.dao.MatchMapper;
 import com.fly.wechat.mpdemo.match.dao.MatchTeamMapper;
 import com.fly.wechat.mpdemo.match.dao.PlayerMapper;
 import com.fly.wechat.mpdemo.match.dao.TeamMapper;
 import com.fly.wechat.mpdemo.match.dao.TeamPlayerMapper;
 import com.fly.wechat.mpdemo.match.model.Game;
+import com.fly.wechat.mpdemo.match.model.GamePlayerDetail;
 import com.fly.wechat.mpdemo.match.model.Match;
 import com.fly.wechat.mpdemo.match.model.MatchTeam;
 import com.fly.wechat.mpdemo.match.model.Player;
@@ -61,6 +64,10 @@ public class XcxController extends BaseController{
 	private GameMapper gameMapper;
 	@Resource
 	private TeamPlayerMapper teamPlayerMapper;
+	@Resource
+	private GameTeamDetailMapper gameTeamDetailMapper;
+	@Resource
+	private GamePlayerDetailMapper gamePlayerDetailMapper;
 	@Autowired
 	private ThreadPoolTaskExecutor myPool;
 	@ResponseBody
@@ -451,6 +458,28 @@ public class XcxController extends BaseController{
 	public String startGame(@ModelAttribute Game game,String nowDate) throws Throwable {
 		game.setGameTime(DateUtil.parseStrToDate(nowDate, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
 		gameMapper.updateByGameIdSelective(game);
+		Map<String,String> map=success();
+		return toJsonString(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/cfiFirst.do")
+	public String cfiFirst(String gameId,String teamId,String playerIds) throws Throwable {
+		TeamPlayer record=new TeamPlayer();
+		record.setTeamId(teamId);
+		List<TeamPlayer> tps=teamPlayerMapper.selectByTeamPlayer(record);
+		for(TeamPlayer tp:tps){
+			GamePlayerDetail gpd=new GamePlayerDetail();
+			gpd.setTeamId(teamId);
+			gpd.setPlayerId(tp.getPlayerId());
+			gpd.setGameId(gameId);
+			gpd.setNum(new Byte(tp.getNum()));
+			gpd.setSf(new Byte("0"));
+			if(playerIds.contains(gpd.getPlayerId()+"|")){
+				gpd.setSf(new Byte("1"));
+			}
+			gamePlayerDetailMapper.insertSelective(gpd);
+		}
 		Map<String,String> map=success();
 		return toJsonString(map);
 	}
