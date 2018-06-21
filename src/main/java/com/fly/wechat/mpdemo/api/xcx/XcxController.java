@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fly.wechat.mpdemo.api.BaseController;
 import com.fly.wechat.mpdemo.common.DateUtil;
+import com.fly.wechat.mpdemo.common.Geohash;
 import com.fly.wechat.mpdemo.common.RandomStringUtils;
 import com.fly.wechat.mpdemo.match.dao.GameMapper;
 import com.fly.wechat.mpdemo.match.dao.GamePlayerDetailMapper;
@@ -272,6 +273,7 @@ public class XcxController extends BaseController{
 		match.setCreateTime(new Date());
 		match.setToken(WXCore.buildToken());
 		match.setLqType(new Byte("1"));
+		match.setGeoCode(new Geohash().encode(Double.valueOf(match.getLon()), Double.valueOf(match.getLat())));
 		match.setBegtime(DateUtil.parseStrToDate(begDate, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
 		match.setEndtime(DateUtil.parseStrToDate(endDate, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
 		String matchId=IdUtil.genId("mt");
@@ -295,6 +297,9 @@ public class XcxController extends BaseController{
 		//生成赛事
 		if(match.getOpenid()==null){
 			return JSON.toJSONString(map("301","openid is null"));
+		}
+		if(match.getLon()!=null&&match.getLat()!=null){
+			match.setGeoCode(new Geohash().encode(Double.valueOf(match.getLon()), Double.valueOf(match.getLat())).substring(0, 5));
 		}
 		List<Match> list=matchMapper.selectByMatch(match);
 		Map<String,String> map=success();

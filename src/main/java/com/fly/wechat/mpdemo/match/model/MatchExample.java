@@ -715,6 +715,216 @@ public class MatchExample {
             return (Criteria) this;
         }
 
+        public Criteria andLonIsNull() {
+            addCriterion("lon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIsNotNull() {
+            addCriterion("lon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonEqualTo(String value) {
+            addCriterion("lon =", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotEqualTo(String value) {
+            addCriterion("lon <>", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonGreaterThan(String value) {
+            addCriterion("lon >", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonGreaterThanOrEqualTo(String value) {
+            addCriterion("lon >=", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonLessThan(String value) {
+            addCriterion("lon <", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonLessThanOrEqualTo(String value) {
+            addCriterion("lon <=", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonLike(String value) {
+            addCriterion("lon like", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotLike(String value) {
+            addCriterion("lon not like", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIn(List<String> values) {
+            addCriterion("lon in", values, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotIn(List<String> values) {
+            addCriterion("lon not in", values, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonBetween(String value1, String value2) {
+            addCriterion("lon between", value1, value2, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotBetween(String value1, String value2) {
+            addCriterion("lon not between", value1, value2, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIsNull() {
+            addCriterion("lat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIsNotNull() {
+            addCriterion("lat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatEqualTo(String value) {
+            addCriterion("lat =", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotEqualTo(String value) {
+            addCriterion("lat <>", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThan(String value) {
+            addCriterion("lat >", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThanOrEqualTo(String value) {
+            addCriterion("lat >=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThan(String value) {
+            addCriterion("lat <", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThanOrEqualTo(String value) {
+            addCriterion("lat <=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLike(String value) {
+            addCriterion("lat like", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotLike(String value) {
+            addCriterion("lat not like", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIn(List<String> values) {
+            addCriterion("lat in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotIn(List<String> values) {
+            addCriterion("lat not in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatBetween(String value1, String value2) {
+            addCriterion("lat between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotBetween(String value1, String value2) {
+            addCriterion("lat not between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeIsNull() {
+            addCriterion("geo_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeIsNotNull() {
+            addCriterion("geo_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeEqualTo(String value) {
+            addCriterion("geo_code =", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeNotEqualTo(String value) {
+            addCriterion("geo_code <>", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeGreaterThan(String value) {
+            addCriterion("geo_code >", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("geo_code >=", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeLessThan(String value) {
+            addCriterion("geo_code <", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeLessThanOrEqualTo(String value) {
+            addCriterion("geo_code <=", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeLike(String value) {
+            addCriterion("geo_code like", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeNotLike(String value) {
+            addCriterion("geo_code not like", value, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeIn(List<String> values) {
+            addCriterion("geo_code in", values, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeNotIn(List<String> values) {
+            addCriterion("geo_code not in", values, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeBetween(String value1, String value2) {
+            addCriterion("geo_code between", value1, value2, "geoCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andGeoCodeNotBetween(String value1, String value2) {
+            addCriterion("geo_code not between", value1, value2, "geoCode");
+            return (Criteria) this;
+        }
+
         public Criteria andPhoneIsNull() {
             addCriterion("phone is null");
             return (Criteria) this;

@@ -21,6 +21,12 @@ public class Match {
 
     private String loc;
 
+    private String lon;
+
+    private String lat;
+
+    private String geoCode;
+
     private String phone;
 
     private String status;
@@ -107,6 +113,30 @@ public class Match {
 
     public void setLoc(String loc) {
         this.loc = loc;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getGeoCode() {
+        return geoCode;
+    }
+
+    public void setGeoCode(String geoCode) {
+        this.geoCode = geoCode;
     }
 
     public String getPhone() {
