@@ -252,57 +252,6 @@
     </set>
     where id = #{id,jdbcType=BIGINT} and openid = #{openid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fly.wechat.mpdemo.match.model.Match" >
-    update lq_match
-    <set >
-      <if test="matchId != null" >
-        match_id = #{matchId,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="lqDesc != null" >
-        lq_desc = #{lqDesc,jdbcType=VARCHAR},
-      </if>
-      <if test="unionid != null" >
-        unionid = #{unionid,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null" >
-        token = #{token,jdbcType=VARCHAR},
-      </if>
-      <if test="lqType != null" >
-        lq_type = #{lqType,jdbcType=TINYINT},
-      </if>
-      <if test="loc != null" >
-        loc = #{loc,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="num != null" >
-        num = #{num,jdbcType=INTEGER},
-      </if>
-      <if test="groupnum != null" >
-        groupNum = #{groupnum,jdbcType=INTEGER},
-      </if>
-      <if test="picurl != null" >
-        picUrl = #{picurl,jdbcType=VARCHAR},
-      </if>
-      <if test="begtime != null" >
-        begTime = #{begtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null" >
-        endTime = #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT} and openid = #{openid,jdbcType=VARCHAR}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.fly.wechat.mpdemo.match.model.Match" >
     update lq_match
     set match_id = #{matchId,jdbcType=VARCHAR},

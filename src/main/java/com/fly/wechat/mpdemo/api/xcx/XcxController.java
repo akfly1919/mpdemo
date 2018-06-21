@@ -446,4 +446,13 @@ public class XcxController extends BaseController{
 		return toJsonString(map);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/startGame.do")
+	public String startGame(@ModelAttribute Game game,String nowDate) throws Throwable {
+		game.setGameTime(DateUtil.parseStrToDate(nowDate, DateUtil.DATE_TIME_FORMAT_YYYY_MM_DD_HH_MI_SS));
+		gameMapper.updateByGameIdSelective(game);
+		Map<String,String> map=success();
+		return toJsonString(map);
+	}
+	
 }

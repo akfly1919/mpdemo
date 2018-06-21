@@ -13,6 +13,9 @@
     <result column="ascore_detail" property="ascoreDetail" jdbcType="VARCHAR" />
     <result column="bscore_detail" property="bscoreDetail" jdbcType="VARCHAR" />
     <result column="game_didian" property="gameDidian" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
     <result column="game_time" property="gameTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -47,7 +50,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, match_id, game_id, name, aid, bid, ascore, bscore, ascore_detail, bscore_detail, 
-    game_didian, game_time, create_time
+    game_didian, address, latitude, longitude, game_time, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.GameExample" >
     select
@@ -70,22 +73,6 @@
     from game
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectByGame" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.Game" >
-    select 
-    <include refid="Base_Column_List" />
-    from game
-    where 
-      <if test="id != null" >
-        id = #{id,jdbcType=BIGINT} and 
-      </if>
-      <if test="matchId != null" >
-        match_id = #{matchId,jdbcType=VARCHAR} and
-      </if>
-      <if test="gameId != null" >
-        game_id = #{gameId,jdbcType=VARCHAR} and
-      </if>
-      1=1 
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from game
     where id = #{id,jdbcType=BIGINT}
@@ -94,12 +81,14 @@
     insert into game (id, match_id, game_id, 
       name, aid, bid, ascore, 
       bscore, ascore_detail, bscore_detail, 
-      game_didian, game_time, create_time
+      game_didian, address, latitude, 
+      longitude, game_time, create_time
       )
     values (#{id,jdbcType=BIGINT}, #{matchId,jdbcType=VARCHAR}, #{gameId,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{aid,jdbcType=VARCHAR}, #{bid,jdbcType=VARCHAR}, #{ascore,jdbcType=INTEGER}, 
       #{bscore,jdbcType=INTEGER}, #{ascoreDetail,jdbcType=VARCHAR}, #{bscoreDetail,jdbcType=VARCHAR}, 
-      #{gameDidian,jdbcType=VARCHAR}, #{gameTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
+      #{gameDidian,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=VARCHAR}, #{gameTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.fly.wechat.mpdemo.match.model.Game" >
@@ -137,6 +126,15 @@
       </if>
       <if test="gameDidian != null" >
         game_didian,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="longitude != null" >
+        longitude,
       </if>
       <if test="gameTime != null" >
         game_time,
@@ -179,6 +177,15 @@
       <if test="gameDidian != null" >
         #{gameDidian,jdbcType=VARCHAR},
       </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
       <if test="gameTime != null" >
         #{gameTime,jdbcType=TIMESTAMP},
       </if>
@@ -220,6 +227,15 @@
       <if test="gameDidian != null" >
         game_didian = #{gameDidian,jdbcType=VARCHAR},
       </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
       <if test="gameTime != null" >
         game_time = #{gameTime,jdbcType=TIMESTAMP},
       </if>
@@ -241,6 +257,9 @@
       ascore_detail = #{ascoreDetail,jdbcType=VARCHAR},
       bscore_detail = #{bscoreDetail,jdbcType=VARCHAR},
       game_didian = #{gameDidian,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
       game_time = #{gameTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
@@ -248,9 +267,6 @@
   <update id="updateByGameIdSelective" parameterType="com.fly.wechat.mpdemo.match.model.Game" >
     update game
     <set >
-      <if test="gameId != null" >
-        game_id = #{gameId,jdbcType=VARCHAR},
-      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -278,10 +294,32 @@
       <if test="gameTime != null" >
         game_time = #{gameTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
       </if>
     </set>
-    where match_id = #{matchId,jdbcType=VARCHAR}
+    where game_id = #{gameId,jdbcType=VARCHAR}
   </update>
+  <select id="selectByGame" resultMap="BaseResultMap" parameterType="com.fly.wechat.mpdemo.match.model.Game" >
+    select 
+    <include refid="Base_Column_List" />
+    from game
+    where 
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT} and 
+      </if>
+      <if test="matchId != null" >
+        match_id = #{matchId,jdbcType=VARCHAR} and
+      </if>
+      <if test="gameId != null" >
+        game_id = #{gameId,jdbcType=VARCHAR} and
+      </if>
+      1=1 
+  </select>
 </mapper>
