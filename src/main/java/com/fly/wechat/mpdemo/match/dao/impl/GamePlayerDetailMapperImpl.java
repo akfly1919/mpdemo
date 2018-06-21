@@ -56,6 +56,12 @@ public class GamePlayerDetailMapperImpl extends BaseMapper  implements GamePlaye
 		return 0;
 	}
 
+	@Override
+	public int updateByGamePlayerDetail(GamePlayerDetail record) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.update(name+"updateByGamePlayerDetail", record);
+	}
+
 	
 
 }

@@ -24,6 +24,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.fly.wechat.mpdemo.api.BaseController;
 import com.fly.wechat.mpdemo.common.DateUtil;
 import com.fly.wechat.mpdemo.common.RandomStringUtils;
@@ -480,6 +481,27 @@ public class XcxController extends BaseController{
 			}
 			gamePlayerDetailMapper.insertSelective(gpd);
 		}
+		Map<String,String> map=success();
+		return toJsonString(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/uploadPlayerData.do")
+	public String uploadPlayerData(String gameId,String teamId,String jsonData) throws Throwable {
+		JSONArray ja=JSON.parseArray(jsonData);
+		for(int i=0;i<ja.size();i++){
+			GamePlayerDetail record=ja.getObject(i, GamePlayerDetail.class);
+			record.setGameId(gameId);
+			record.setTeamId(teamId);
+			gamePlayerDetailMapper.updateByGamePlayerDetail(record);
+		}
+		Map<String,String> map=success();
+		return toJsonString(map);
+	}
+	@ResponseBody
+	@RequestMapping("/uploadTeamData.do")
+	public String uploadTeamData(@ModelAttribute Game game) throws Throwable {
+		gameMapper.updateByGameIdSelective(game);
 		Map<String,String> map=success();
 		return toJsonString(map);
 	}

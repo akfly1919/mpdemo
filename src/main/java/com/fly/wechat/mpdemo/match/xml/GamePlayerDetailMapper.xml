@@ -343,4 +343,68 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="updateByGamePlayerDetail" parameterType="com.fly.wechat.mpdemo.match.model.GamePlayerDetail" >
+    update game_player_detail
+    <set >
+      <if test="sf != null" >
+        sf = #{sf,jdbcType=TINYINT},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=TINYINT},
+      </if>
+      <if test="min != null" >
+        min = #{min,jdbcType=TINYINT},
+      </if>
+      <if test="fg != null" >
+        fg = #{fg,jdbcType=TINYINT},
+      </if>
+      <if test="fgt != null" >
+        fgt = #{fgt,jdbcType=TINYINT},
+      </if>
+      <if test="pt3 != null" >
+        pt3 = #{pt3,jdbcType=TINYINT},
+      </if>
+      <if test="pt3t != null" >
+        pt3t = #{pt3t,jdbcType=TINYINT},
+      </if>
+      <if test="ft != null" >
+        ft = #{ft,jdbcType=TINYINT},
+      </if>
+      <if test="ftt != null" >
+        ftt = #{ftt,jdbcType=TINYINT},
+      </if>
+      <if test="oreb != null" >
+        oreb = #{oreb,jdbcType=TINYINT},
+      </if>
+      <if test="dreb != null" >
+        dreb = #{dreb,jdbcType=TINYINT},
+      </if>
+      <if test="reb != null" >
+        reb = #{reb,jdbcType=TINYINT},
+      </if>
+      <if test="ast != null" >
+        ast = #{ast,jdbcType=TINYINT},
+      </if>
+      <if test="stl != null" >
+        stl = #{stl,jdbcType=TINYINT},
+      </if>
+      <if test="blk != null" >
+        blk = #{blk,jdbcType=TINYINT},
+      </if>
+      <if test="to != null" >
+        to = #{to,jdbcType=TINYINT},
+      </if>
+      <if test="pf != null" >
+        pf = #{pf,jdbcType=TINYINT},
+      </if>
+      <if test="pts != null" >
+        pts = #{pts,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where game_id = #{gameId,jdbcType=VARCHAR} and team_id = #{teamId,jdbcType=VARCHAR} and
+          player_id = #{playerId,jdbcType=VARCHAR}
+  </update>
 </mapper>

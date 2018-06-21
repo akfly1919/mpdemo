@@ -18,4 +18,6 @@ public interface GamePlayerDetailMapper {
     int updateByPrimaryKeySelective(GamePlayerDetail record);
 
     int updateByPrimaryKey(GamePlayerDetail record);
+    
+    int updateByGamePlayerDetail(GamePlayerDetail record);
 }
